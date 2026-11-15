@@ -61,8 +61,8 @@
 .orbit:hover *,.orbit:focus-within * {animation-play-state:paused}
 @keyframes spin {to {rotate:360deg}}
 .team h2 {margin-bottom:12px}
-.team-wrap {display:flex;align-items:center;gap:8px;max-width:1040px;margin:36px auto 0}
-.people {min-width:0;display:flex;overflow:auto;gap:16px;scroll-snap-type:x mandatory;scrollbar-width:none;flex:1}
+.team-wrap {display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;max-width:1040px;margin:36px auto 0}
+.people {min-width:0;max-width:100%;contain:inline-size;display:flex;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;gap:16px;scroll-snap-type:x mandatory;scrollbar-width:none}
 .people article {flex:0 0 calc((100% - 64px)/5);scroll-snap-align:start;min-width:128px}
 .people img,.photo {width:min(100%,140px);aspect-ratio:1;border-radius:50%;border:2px solid var(--gold);margin:auto}
 .photo {display:grid;place-items:center;background:#211b15;color:var(--gold)}

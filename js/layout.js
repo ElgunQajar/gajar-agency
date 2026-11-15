@@ -1,9 +1,9 @@
 const root = document.body.dataset.root;
 const page = document.body.dataset.page;
-const whatsapp = "https://wa.me/994997957905";
+const whatsapp = GajarConfig.whatsapp;
 const navItems = [
   ["index", "Ana səhifə"], ["paketler", "Paketlər"], ["xidmetler", "Xidmətlər"],
-  ["elgun-gajar", "Elgün Gajar kimdir?"], ["faq", "FAQ"], ["elaqe", "Əlaqə"]
+  ["elgun-gajar", "Elgün Gajar kimdir?"], ["keysler", "Keyslər"], ["faq", "FAQ"], ["bloq","Bloq"], ["elaqe", "Əlaqə"]
 ];
 function pageLink([slug, label]) {
   const url = root + (slug === "index" ? "index.html" : "pages/" + slug + ".html");
@@ -33,7 +33,7 @@ const toggle = document.querySelector(".menu-toggle");
 toggle.onclick = () => { dialog.showModal(); toggle.setAttribute("aria-expanded","true"); };
 dialog.querySelector("button").onclick = () => dialog.close();
 dialog.onclose = () => { toggle.setAttribute("aria-expanded","false"); toggle.focus(); };
-matchMedia("(min-width: 981px)").addEventListener("change", e => { if (e.matches && dialog.open) dialog.close(); });
+matchMedia("(min-width: 1101px)").addEventListener("change", e => { if (e.matches && dialog.open) dialog.close(); });
 
 const destination = encodeURIComponent("Jalə Plaza, Şamil Əzizbəyov küçəsi 140, Bakı");
 const route = "https://www.google.com/maps/dir/?api=1&destination=" + destination;
@@ -41,16 +41,16 @@ const address = "Jalə Plaza, 3-cü mərtəbə, Şamil Əzizbəyov küç. 140, N
 const contacts = [
   ["Telefon", "+994 99 795 79 05", "tel:+994997957905", "phone"],
   ["WhatsApp", "+994 99 795 79 05", whatsapp, "wa"],
-  ["E-poçt", "elgungajarx@gmail.com", "mailto:elgungajarx@gmail.com", "mail"]
+  ["E-poçt", GajarConfig.email, "mailto:"+GajarConfig.email, "mail"]
 ];
 document.querySelector("footer").innerHTML = `
 <div class="champagne footer-top"><div class="footer-grid">
 <section><h2>Ünvan</h2><address>${address}</address><small>28 May metrosunun yaxınlığı</small>
-<p>Bazar ertəsi – Cümə, 10:00–19:00<br>Şənbə və bazar: istirahət.</p><a class="dark-btn" href="${route}" target="_blank" rel="noopener">Marşrut qur ↗</a></section>
-<section><h2>Əlaqə</h2>${contacts.map(([label,value,url,symbol]) => `<a class="contact-row" href="${url}"><span><small>${label}</small>${value}</span><i>${icon(symbol)}</i></a>`).join("")}</section>
+<p>B.e.–Cümə 10:00–19:00<br>Şənbə, bazar: qeyri-iş günü.</p><a class="dark-btn" href="${route}" target="_blank" rel="noopener">Marşrut qur <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path transform="rotate(-45 12 12)" d="M4 12h15m-6-6 6 6-6 6"/></svg></a></section>
+<section><h2>Əlaqə</h2>${contacts.filter(row=>row[1]).map(([label,value,url,symbol]) => `<a class="contact-row" href="${url}"><span><small>${label}</small>${value}</span><i>${icon(symbol)}</i></a>`).join("")}</section>
 <section class="map"><h2>Ofisimiz xəritədə</h2><iframe title="Jalə Plaza, Bakı — Google xəritəsi" data-src="https://maps.google.com/maps?q=${destination}&amp;z=16&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe></section>
 </div></div>
-<div class="champagne footer-bottom">${logo}<div><p>© 2026 Gajar Agency — Gajar Holding. Bütün hüquqlar qorunur.</p>
+<div class="champagne footer-bottom">${logo}<div><p>© 2026 Gajar Agency. Bütün hüquqlar qorunur.</p>
 <nav aria-label="Alt menyu">${[navItems[1],["haqqimizda","Haqqımızda"],["mexfilik","Məxfilik siyasəti"]].map(pageLink).join("")}</nav></div>
 <a class="social" href="https://www.instagram.com/gajar.agency/" aria-label="Gajar Agency Instagram hesabı">${icon("instagram")}</a></div>`;
 

@@ -33,7 +33,7 @@ function append(text, user = false) {
 function addWhatsAppLink(message) {
   const link = document.createElement("a");
   link.href = whatsapp + "?text=" + encodeURIComponent(message);
-  link.textContent = "WhatsApp-da aç ↗";
+  link.textContent = "WhatsApp-da aç";
   link.target = "_blank";
   link.rel = "noopener";
   append("").append(link);
@@ -49,7 +49,8 @@ form.onsubmit = async event => {
   append(message, true);
   input.value = "";
   if (!endpoint) {
-    addWhatsAppLink(message).click();
+    if (/qiymət|цена|стоимость/i.test(message)) append(document.documentElement.lang==="ru" ? "AI-чатбот — "+GajarConfig.prices.chatbot+" ₼/мес. Настройка бесплатно." : "AI chatbot aylıq "+GajarConfig.prices.chatbot+" ₼, quraşdırma pulsuzdur.");
+    addWhatsAppLink(message).focus();
     return;
   }
   const send = form.querySelector("button");

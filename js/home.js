@@ -6,6 +6,7 @@
   function markChoice() {
     choices.forEach(button => button.setAttribute("aria-pressed", String(button.textContent === field.value)));
     field.setCustomValidity("");
+    problem.parentElement.querySelector(".draft-link")?.remove();
   }
   choices.forEach(button => button.onclick = () => {
     field.value = button.textContent;
@@ -20,7 +21,7 @@
       field.reportValidity();
       return;
     }
-    window.open(whatsapp + "?text=" + encodeURIComponent("Salam, Gajar Agency! " + field.value.trim()), "_blank", "noopener");
+    GajarLead.send(problem,{type:"problem",message:field.value.trim()},field.value.trim());
   };
 
   const questions = [
@@ -52,7 +53,7 @@
   [
     "Seçim",
     "Xidmətləri ayrıca almaq olar?",
-    "AI chatbot ayda 500 ₼, Meta Ads idarəetməsi isə 400 ₼-dir. Video və dizayn yalnız paketlərdə təqdim olunur."
+    "AI chatbot ayda 300 ₼, Meta Ads idarəetməsi isə 400 ₼-dir. Video və dizayn yalnız paketlərdə təqdim olunur."
   ],
   [
     "Reklam",
@@ -62,7 +63,7 @@
   [
     "Ofis",
     "Ofisiniz haradadır və iş saatlarınız necədir?",
-    "Bakı, Nəsimi rayonu, Şamil Əzizbəyov küçəsi 140, Jalə Plaza, 3-cü mərtəbə. Bazar ertəsindən cüməyədək 10:00–19:00 işləyirik."
+    "Bakı, Nəsimi rayonu, Şamil Əzizbəyov küçəsi 140, Jalə Plaza, 3-cü mərtəbə. B.e.–Cümə 10:00–19:00."
   ],
   [
     "İlk addım",
@@ -130,7 +131,7 @@
   let pointer = {x:0, y:0};
   function resize() {
     const rect = canvas.getBoundingClientRect();
-    const chip = hero.querySelector(".chip").getBoundingClientRect();
+    const chip = (hero.querySelector(".showreel") || hero.querySelector(".phone-demo")).getBoundingClientRect();
     width = rect.width;
     height = rect.height;
     const scale = Math.min(devicePixelRatio, 2);
