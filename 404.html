@@ -2,7 +2,12 @@
 <html lang="az">
 <head>
   <meta charset="utf-8">
-  <script>if (location.protocol !== "file:") document.head.appendChild(document.createElement("base")).href = "/";</script>
+  <script>
+    if (location.protocol !== "file:") {
+      const siteRoot = /^\/gajar-agency(?:\/|$)/.test(location.pathname) ? "/gajar-agency/" : "/";
+      document.head.appendChild(document.createElement("base")).href = siteRoot;
+    }
+  </script>
   <script src="js/config.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Səhifə tapılmadı | Gajar Agency</title>

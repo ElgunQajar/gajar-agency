@@ -13,6 +13,60 @@
   ];
   const choices=questions.map(q=>q[1].split("|"));
   const answers=[];let step=0;
+  function nextDayCard(){
+    const [sector,volume,staff,after,ads,content,orders]=answers;
+    const prompts=t(
+      ["Qəbula necə yazılım?","Şənbəyə masa sifariş edə bilərəm?","Bu məhsulu necə sifariş edim?","Axşam qrupu varmı?","Xidmət üçün necə müraciət edim?","Sifariş vermək üçün nə etməliyəm?"],
+      ["Как записаться на приём?","Можно забронировать столик на субботу?","Как заказать этот товар?","Есть ли вечерняя группа?","Как оставить заявку на услугу?","Как оформить заказ?"]
+    );
+    let task;
+    if(after!==0){
+      task=t("Son iş günündən sonra gələn mesajları açın. Təkrarlanan bir sualı seçin və gecə verilə biləcək cavabı yazın. Hansı məqamda əməkdaşın söhbətə qoşulacağını razılaşdırın.","Откройте сообщения, пришедшие после последней смены. Выберите повторяющийся вопрос, напишите ночной ответ и договоритесь, когда диалог должен принять сотрудник.");
+    }else if(orders===0||orders===3){
+      task=t("Bir müraciəti yazışmadan təsdiqə qədər izləyin. Bir kartda istəyi, çatışmayan məlumatı və məsul əməkdaşı qeyd edin. Müştəri fikrini dəyişəndə eyni kartı yeniləyin.","Проследите одну заявку от переписки до подтверждения. В одной карточке запишите запрос, недостающие сведения и ответственного. Когда клиент передумает, обновите ту же карточку.");
+    }else if(staff===2||volume===2){
+      task=t("Son yazışmalardan növbədə qalan bir sual seçin. İlk cavabı yazın və məsul şəxsi təyin edin. Həmkarınız müştəri rolunda fikrini dəyişəndə dialoqu ona ötürün.","Выберите вопрос, который долго ждал ответа. Подготовьте первую реплику и назначьте ответственного. Попросите коллегу сыграть клиента, изменить запрос и проверить передачу диалога.");
+    }else if(content===2||ads!==0){
+      task=t("Bir məhsul və ya xidmət seçin. Reklamı görən şəxsin verəcəyi ilk sualı yazın. Cavabı aktual təklifinizlə tutuşdurun və sifarişə keçmək üçün bir addım göstərin.","Выберите товар или услугу. Запишите первый вопрос человека, увидевшего рекламу. Сверьте ответ с действующим предложением и подскажите один шаг для оформления заявки.");
+    }else{
+      task=t("Son tamamlanmış müraciəti açın. Müştərinin verdiyi ilk sualı və komandanın cavabını yanaşı yazın. Cavabı elə dəqiqləşdirin ki, müştəri növbəti addımı özü ata bilsin.","Откройте последнюю завершённую заявку. Выпишите первый вопрос клиента и ответ команды. Уточните ответ так, чтобы человек мог самостоятельно сделать следующий шаг.");
+    }
+    const card=document.createElement("section");card.className="next-day-card";
+    const title=document.createElement("h3");title.textContent=t("Sabah ofisdə bunu sına","Попробуйте это завтра в офисе");
+    const copy=document.createElement("p");copy.textContent=task;
+    const prompt=document.createElement("p");prompt.textContent=t("Nümunə sual: ","Пример вопроса: ")+prompts[sector];
+    const label=document.createElement("label");label.textContent=t("Sınamaq üçün öz cavabınız","Ваш ответ для проверки");
+    const answer=document.createElement("textarea");answer.rows=3;answer.maxLength=600;label.append(answer);
+    const actions=document.createElement("div");actions.className="feature-actions";
+    const share=document.createElement("a");share.className="cta";share.dataset.teamShare="";share.target="_blank";share.rel="noopener";
+    share.textContent=t("Komandama göndər","Поделиться с командой");
+    const simulator=GajarConfig.simulatorPage;
+    function updateShare(){
+      const parts=[title.textContent,choices[0][sector],task,prompt.textContent,answer.value.trim()];
+      if(simulator&&/^https?:$/.test(location.protocol)){
+        const url=new URL(simulator,document.querySelector('link[rel="canonical"]').href);
+        url.searchParams.set("sector",sector);parts.push(url.href);
+      }
+      share.href=GajarConfig.whatsappBase+"?text="+encodeURIComponent(parts.filter(Boolean).join("\n\n"));
+    }
+    if(GajarConfig.whatsappBase){answer.oninput=updateShare;updateShare();actions.append(share);}
+    if(simulator){
+      const demo=document.createElement("a");demo.className="cta";
+      const dest=simulator+"?sector="+sector+"&source=scan";demo.href=dest;
+      demo.textContent=t("Bu cavabı botda sına","Проверить ответ в боте");
+      demo.addEventListener("click",()=>{
+        const text=answer.value.trim();
+        let useFragment=location.protocol==="file:";
+        try{
+          if(text)sessionStorage.setItem("gajar-demo-answer",text);
+          else sessionStorage.removeItem("gajar-demo-answer");
+        }catch{useFragment=true;}
+        demo.href=dest+(useFragment&&text?"#"+new URLSearchParams({answer:text}):"");
+      });
+      actions.append(demo);
+    }
+    card.append(title,copy,prompt,label,actions);root.append(card);
+  }
   function render(focus=false){
     root.innerHTML='<p class="scan-step"></p><progress max="7"></progress><h2 tabindex="-1"></h2><div class="scan-options"></div>';
     root.querySelector(".scan-step").textContent=step<7?t("Addım ","Шаг ")+(step+1)+" / 7":t("Suallar tamamlandı","Вопросы пройдены");
@@ -50,6 +104,7 @@
           const bar=document.createElement("progress");bar.max=100;bar.value=values[i];row.append(bar);root.append(row);
         });
         const a=document.createElement("a");a.className="cta";a.href="paketler.html#"+plan.toLowerCase();a.textContent=t("Tövsiyə olunan paket","Рекомендуемый пакет")+" · "+plan+" →";root.append(a);root.querySelector("h2").focus();
+        nextDayCard();
       };
     }
     if(step){const back=document.createElement("button");back.className="scan-back";back.textContent=t("← Geri","← Назад");back.onclick=()=>{step--;render(true);};root.append(back);}

@@ -82,6 +82,9 @@ small {font-size:13px}
 .chat input {min-width:0;width:100%;border:1px solid #6e5a39;border-radius:10px;background:#090909;color:var(--cream);padding:10px}
 .chat form {border-top:1px solid #383127;border-bottom:0}
 .chat-log a {color:var(--light);text-decoration:underline}
+.chat .chat-buy {margin:0 16px 12px;color:var(--cream);background:transparent;border:1px solid var(--gold);font:inherit}
+.chat-log .chat-buyer-links {display:grid;gap:3px}
+.chat-buyer-links a {padding:5px 0;text-underline-offset:3px}
 @media(max-width:980px) {
   #header>nav {display:none}
   .menu-toggle {display:block}

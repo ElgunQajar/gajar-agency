@@ -40,7 +40,7 @@
   const track=()=>window.fbq?.("track","Lead");
   document.addEventListener("click",event=>{
     const a=event.target.closest("a[href]");
-    if(a && /^(wa\.me|api\.whatsapp\.com)$/.test(a.hostname) && !event.defaultPrevented)track();
+    if(a && !a.hasAttribute("data-team-share") && /^(wa\.me|api\.whatsapp\.com)$/.test(a.hostname) && !event.defaultPrevented)track();
   });
   async function send(form,fields,whatsappMessage){
     if(form.dataset.sending)return false;
@@ -80,11 +80,60 @@
     document.addEventListener("click",e=>{if(!menu.contains(e.target))menu.open=false;});
     menu.addEventListener("keydown",e=>{if(e.key==="Escape"&&menu.open){e.stopPropagation();menu.open=false;title.focus();}});
   });
-  if(home&&cfg.scanPage){
+  const botTools=[
+    [cfg.simulatorPage,t("Öz biznesini müştəri kimi sına","Станьте клиентом своего бизнеса"),t("Bir mesaj göndərin. Həm müştərinin telefonuna, həm də menecerin ekranına baxın.","Отправьте сообщение и посмотрите на него глазами клиента и менеджера."),t("Söhbətə başla","Начать диалог")],
+    [cfg.rulesPage,t("Botu çətinə sal","Испытайте бота сложным вопросом"),t("Endirim istəyən və ya fikrini dəyişən müştəri üçün botun sərhədlərini siz müəyyən edin.","Решите, что может сделать бот, если клиент просит скидку или меняет заказ."),t("Qaydaları seç","Задать правила")],
+  ].filter(([file])=>file);
+  const businessTools=[
+    [cfg.salesStudioPage,t("Bir təklifin satış yolu","Путь от предложения до заявки"),t("Öz məhsulunuz üçün video açılışını, reklam sualını və botun cavabını birləşdirin.","Соберите начало ролика, вопрос из рекламы и ответ бота для своего продукта."),t("Ssenari hazırla","Собрать сценарий")],
+    [cfg.scanPage,t("Biznesinizi skan edin","Проверьте свой бизнес"),t("Altı suala cavab verin və sabah ofisdə sınamaq üçün bir tapşırıq götürün.","Ответьте на шесть вопросов и получите задачу, которую можно попробовать завтра в офисе."),t("Testə başla","Пройти тест")]
+  ].filter(([file])=>file);
+  const hubPath="ai-chatbot.html#bot-sinaqlari";
+  const hubTitle=t("Chatbotu almadan əvvəl sına","Попробуйте чатбота перед покупкой");
+  function addCards(grid,items){
+    for(const [file,name,description,action] of items){
+      const a=document.createElement("a");a.className="case-card";a.href=pages+file;
+      const h=document.createElement("h3");h.textContent=name;
+      const p=document.createElement("p");p.textContent=description;
+      const label=document.createElement("span");label.textContent=action+" →";
+      a.append(h,p,label);grid.append(a);
+    }
+  }
+  if(home){
     const section=document.createElement("section");section.className="panel release-panel scan-invite";
-    section.innerHTML='<h2>'+t("Biznesinizi skan edin","Проверьте свой бизнес")+'</h2><p>'+t("Altı suala cavab verin və hansı gündəlik işi əvvəlcə avtomatlaşdırmağa dəyər, öyrənin.","Ответьте на шесть вопросов и узнайте, какие повседневные задачи стоит автоматизировать в первую очередь.")+'</p><a class="cta"></a>';
-    const a=section.querySelector("a");a.href=pages+cfg.scanPage;a.textContent=t("Testə başla →","Пройти тест →");
+    const title=document.createElement("h2");title.textContent=t("Biznesinizdə sınayın","Попробуйте на своём бизнесе");
+    const grid=document.createElement("div");grid.className="experience-grid";
+    addCards(grid,businessTools);
+    const hubLink=document.createElement("a");hubLink.href=pages+hubPath;hubLink.className="cta";
+    hubLink.textContent=hubTitle+" →";
+    section.append(title,grid,hubLink);
     document.querySelector(".hero").after(section);
+  }
+  const hub=document.querySelector("#bot-sinaqlari .experience-grid");
+  if(hub){
+    addCards(hub,botTools);
+    const caseDescriptions={
+      "gajar-academy":t("Şagirdin səsli mesajını dinləyin və menecerin Telegram-da nə gördüyünə baxın.","Послушайте голосовое сообщение ученика и посмотрите, что получает менеджер в Telegram."),
+      "bio4n":t("Müştəriyə veriləcək sualı seçin və müraciətin mütəxəssisə necə ötürüldüyünü görün.","Выберите вопрос покупателю и проследите, как запрос передаётся специалисту.")
+    };
+    const cases=(cfg.cases||[]).filter(c=>caseDescriptions[c.id]&&c.name);
+    addCards(hub,cases.map(c=>["keysler.html#"+c.id,c.name,caseDescriptions[c.id],t("Keysi sına","Открыть пример")]));
+  }
+  const experienceNav=document.querySelector("[data-experience-nav]");
+  const botExperience=botTools.some(([file])=>location.pathname.endsWith("/"+file));
+  const experiences=botExperience?[[hubPath,hubTitle],...botTools,["ai-chatbot.html#qiymet",t("Chatbotun qiyməti","Стоимость чатбота")]]:[...businessTools,[hubPath,hubTitle]];
+  if(experienceNav)for(const [file,name] of experiences){
+    if(location.pathname.endsWith("/"+file))continue;
+    const a=document.createElement("a");a.href=pages+file;a.textContent=name+" →";experienceNav.append(a);
+  }
+  if(cfg.simulatorPage){
+    const industry=document.querySelector(".industry-example>div");
+    const sectorByPage={"klinikalar":0,"restoranlar":1,"onlayn-magazalar":2,"tehsil-merkezleri":3};
+    const sector=sectorByPage[document.body.dataset.page];
+    if(industry&&sector!==undefined){
+      const a=document.createElement("a");a.className="cta";a.href=pages+cfg.simulatorPage+"?sector="+sector;
+      a.textContent=t("Bu dialoqu özün sına →","Попробовать диалог →");industry.append(a);
+    }
   }
   if(home&&cfg.showreelUrl?.trim()){
     const hero=document.querySelector(".hero-inner"), phone=hero.querySelector(".phone-demo");

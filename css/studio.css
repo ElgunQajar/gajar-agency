@@ -1,0 +1,39 @@
+:is(#rules-game,#sales-studio){
+  --studio-line:color-mix(in srgb,var(--gold) 44%,transparent);
+  --studio-tint:color-mix(in srgb,var(--gold) 9%,transparent);
+  width:min(900px,94%);
+  margin:0 auto;
+  padding:clamp(18px,4vw,42px);
+  border:1px solid var(--studio-line);
+  border-radius:24px;
+  background:var(--card);
+  color:var(--cream);
+}
+.studio-form,.studio-thread,.studio-brief,.studio-preview,.studio-path{display:grid;gap:18px}
+.studio-form :is(h2,fieldset),.studio-thread p,.studio-brief dd,.studio-path :is(h3,p){margin:0}
+.studio-form>label{display:grid;gap:7px;font-weight:500}
+.studio-form input[type=text]{width:100%;padding:12px 14px;border:1px solid var(--studio-line);border-radius:12px;background:var(--dark);color:var(--cream)}
+.studio-form>button,.studio-preview>button{justify-self:start}
+.studio-rule,.studio-angles{min-width:0;border:1px solid var(--studio-line);border-radius:14px;padding:12px 16px 14px}
+.studio-rule legend,.studio-angles legend,.studio-message strong,.studio-kicker,.studio-brief dt{color:var(--light);font-weight:600}
+.studio-rule label,.studio-angles label{display:flex;align-items:baseline;gap:9px;padding:6px 0;cursor:pointer}
+.studio-rule input,.studio-angles input{accent-color:var(--gold);flex:none}
+.studio-angles label{display:inline-flex;margin-inline-end:18px}
+.studio-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.studio-secondary{padding:9px 15px;background:transparent;color:var(--cream);border:1px solid var(--studio-line);border-radius:16px;font:inherit;cursor:pointer}
+.studio-secondary:hover,.studio-rule label:hover,.studio-angles label:hover{color:var(--light)}
+.studio-thread{margin-top:18px;padding:clamp(12px,3vw,22px);border:1px solid var(--studio-line);border-radius:18px;background:var(--dark)}
+.studio-message{justify-self:start;max-width:85%;padding:12px 15px;background:var(--card);border:1px solid var(--studio-line);border-radius:15px 15px 15px 4px}
+.studio-message.studio-out{justify-self:end;background:var(--studio-tint);border-radius:15px 15px 4px 15px}
+.studio-message strong,.studio-kicker{font-size:.86rem}
+.studio-brief{gap:4px}.studio-brief dd{margin-bottom:12px}
+.studio-preview{border-top:1px solid var(--studio-line);margin-top:28px;padding-top:18px}
+.studio-preview[hidden]{display:none}
+.studio-path{list-style:none;margin:0;padding:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.studio-path li{min-width:0;padding:16px;border:1px solid var(--studio-line);border-radius:16px;background:var(--studio-tint);overflow-wrap:anywhere}
+.studio-path h3{color:var(--light);margin-bottom:10px;font-size:1rem}
+@media(max-width:760px){
+  .studio-path{grid-template-columns:1fr}
+  .studio-message{max-width:95%}
+  :is(#rules-game,#sales-studio){margin-inline:3% max(60px,calc(env(safe-area-inset-right) + 58px));width:auto}
+}

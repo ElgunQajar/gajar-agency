@@ -30,6 +30,39 @@ function append(text, user = false) {
   log.scrollTop = log.scrollHeight;
   return bubble;
 }
+const buyPrompt = "Chatbot almaq istəyirəm";
+const quickBuy = document.createElement("button");
+quickBuy.type = "button";
+quickBuy.className = "chat-buy";
+quickBuy.textContent = buyPrompt;
+log.after(quickBuy);
+function showChatbotChoices() {
+  const reply = append("Biznesinizə uyğun chatbotu seçmək üçün bir sınaqdan başlayın.");
+  reply.classList.add("chat-buyer-links");
+  const pages = document.body.dataset.root + "pages/";
+  const options = [
+    [GajarConfig.simulatorPage, "Müştəri və menecer kimi sına"],
+    [GajarConfig.rulesPage, "Botu çətinə sal"],
+    ...(GajarConfig.cases || []).filter(c => c.id && c.name).map(c => ["keysler.html#" + encodeURIComponent(c.id), c.name]),
+    ["ai-chatbot.html#bot-sinaqlari", "Chatbotun bütün sınaqları"],
+    ["ai-chatbot.html#qiymet", "Chatbotun qiymətinə bax"]
+  ];
+  for (const [path, title] of options) {
+    if (!path) continue;
+    const a = document.createElement("a");
+    a.href = pages + path;
+    a.textContent = title;
+    a.addEventListener("click", () => setChat(false));
+    reply.append(a);
+  }
+  quickBuy.hidden = true;
+  reply.querySelector("a").focus({preventScroll:true});
+  log.scrollTop = reply.offsetTop - reply.parentElement.offsetTop;
+}
+quickBuy.onclick = () => {
+  append(buyPrompt, true);
+  showChatbotChoices();
+};
 function addWhatsAppLink(message) {
   const link = document.createElement("a");
   link.href = whatsapp + "?text=" + encodeURIComponent(message);
@@ -48,6 +81,11 @@ form.onsubmit = async event => {
   if (!message || form.querySelector("button").disabled) return;
   append(message, true);
   input.value = "";
+  const intent = message.toLocaleLowerCase("az").replace(/[.!?…]+$/u,"").replace(/\s+/g," ").trim();
+  if (/^(?:mən )?(?:ai )?(?:çat[- ]?|chat[- ]?)?bot(?:u)? (?:almaq|sifariş etmək) istəyirəm$/u.test(intent)) {
+    showChatbotChoices();
+    return;
+  }
   if (!endpoint) {
     if (/qiymət|цена|стоимость/i.test(message)) append(document.documentElement.lang==="ru" ? "AI-чатбот — "+GajarConfig.prices.chatbot+" ₼/мес. Настройка бесплатно." : "AI chatbot aylıq "+GajarConfig.prices.chatbot+" ₼, quraşdırma pulsuzdur.");
     addWhatsAppLink(message).focus();

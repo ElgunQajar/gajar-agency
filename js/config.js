@@ -1,6 +1,7 @@
 window.GajarConfig = {
   leadWebhookUrl:"", email:"gajar.agency@gmail.com", metaPixelId:"", clarityId:"", ga4Id:"",
   showreelUrl:"", showreelPoster:"", scanPage:"biznes-skan.html",
+  simulatorPage:"biznes-sina.html", rulesPage:"botu-sina.html", salesStudioPage:"satis-yolu.html",
   sectors:[["tehsil-merkezleri","Təhsil mərkəzləri","Учебные центры"],["klinikalar","Klinikalar və estetik mərkəzlər","Клиники и эстетические центры"],["restoranlar","Restoranlar və kafelər","Рестораны и кафе"],["onlayn-magazalar","Onlayn mağazalar","Интернет-магазины"]],
   webhookUrl: "", demoBotWhatsapp: "", counterCsvUrl: "", lessonDate: "", referralReward: "", voiceDemoUrl: "audio/operator-demo.mp3",
   whatsapp: "https://wa.me/994997957905", phone: "tel:+994997957905", instagram: "https://www.instagram.com/gajar.agency/",
@@ -43,3 +44,9 @@ window.GajarConfig = {
     apply();
   };
 })();
+
+// Tədris keysi üçün yaradılmış nümunə səsli mesajlar.
+window.GajarConfig.academyMessageAudio = {
+  az: "audio/academy-message-az.wav",
+  ru: "audio/academy-message-ru.wav"
+};
