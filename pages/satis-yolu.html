@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <script src="../js/config.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bir təklifin satış yolu | Gajar Agency</title>
-  <meta name="description" content="Məhsul və ya xidmətiniz üçün video açılışını, reklamdan gələn sualı və botun cavabını hazırlayın.">
+  <title>Avtomatik kontent studiyası | Gajar Agency</title>
+  <meta name="description" content="Məhsul məlumatını yazın və ya fayl yükləyin. Paylaşım mətnini, video ssenarisini və müştəriyə cavabı bir yerdə alın.">
   <link rel="canonical" href="https://gajar.agency/pages/satis-yolu.html">
   <meta property="og:url" content="https://gajar.agency/pages/satis-yolu.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Bir təklifin satış yolu | Gajar Agency">
-  <meta property="og:description" content="Məhsul və ya xidmətiniz üçün video açılışını, reklamdan gələn sualı və botun cavabını hazırlayın.">
+  <meta property="og:title" content="Avtomatik kontent studiyası | Gajar Agency">
+  <meta property="og:description" content="Məhsul məlumatını yazın və ya fayl yükləyin. Paylaşım mətnini, video ssenarisini və müştəriyə cavabı bir yerdə alın.">
   <meta property="og:image" content="https://gajar.agency/img/logo-profile-black-ring.png">
   <link rel="icon" href="../img/favicon-64.png">
   <link rel="apple-touch-icon" href="../img/favicon-512.png">
@@ -27,12 +27,45 @@
 <link rel="alternate" hreflang="az" href="https://gajar.agency/pages/satis-yolu.html">
 <link rel="alternate" hreflang="ru" href="https://gajar.agency/ru/pages/satis-yolu.html">
 <link rel="stylesheet" href="../css/studio.css">
-<script defer src="../js/studio.js"></script></head>
+<script defer src="../js/content-studio.js"></script></head>
 <body data-other="../ru/pages/satis-yolu.html" data-root="../" data-page="satis-yolu">
   <a class="skip" href="#main">Məzmuna keç</a>
   <header id="header" class="champagne"></header>
-  <main class="service-page experience-page" id="main"><header class="pricing-head"><h1>Bir təklifin satış yolu</h1><p>Məhsul və ya xidmətiniz üçün video açılışını, reklamdan gələn sualı və botun cavabını hazırlayın.</p></header>
-<section id="sales-studio" class="panel" aria-label="Bir təklifin satış yolu"></section>
+  <main class="service-page experience-page" id="main"><header class="pricing-head"><h1>Avtomatik kontent studiyası</h1><p>Məhsul məlumatını yazın və ya fayl yükləyin. Paylaşım mətnini, video ssenarisini və müştəriyə cavabı bir yerdə alın.</p></header>
+<section id="sales-studio" class="panel" aria-label="Avtomatik kontent studiyası">
+  <form class="studio-form">
+    <label>Brifiniz
+      <textarea name="brief" rows="6" maxlength="6000" required aria-describedby="brief-help" placeholder="Məhsulun və ya xidmətin adı"></textarea>
+    </label>
+    <p id="brief-help">İlk sətirdə təklifin adını yazın. Ardınca alıcının bilməli olduğu detalları əlavə edin.</p>
+    <div class="studio-input-actions">
+      <label class="studio-upload">TXT faylından oxu<input type="file" accept=".txt,text/plain" name="source"></label>
+      <button type="button" class="studio-secondary" data-example>Nümunə brifi aç</button>
+    </div>
+    <label>Oxucu hansı addımı atsın?
+      <select name="goal">
+        <option value="consult">Məsləhət üçün yazsın</option>
+        <option value="order">Sifariş versin</option>
+        <option value="book">Qeydiyyatdan keçsin</option>
+      </select>
+    </label>
+    <p data-mode>Yerli demo brifinizdəki faktları brauzerdə hazır mətnlərə çevirir.</p>
+    <button type="submit" class="cta gold">Kontenti hazırla</button>
+    <p role="status" data-notice></p>
+  </form>
+  <section class="studio-preview" data-result hidden>
+    <h2 tabindex="-1">Kontentiniz hazırdır</h2>
+    <div class="content-kit">
+      <article><h3>Instagram paylaşımı</h3><p data-copy></p></article>
+      <article><h3>Reels ssenarisi</h3><p data-copy></p></article>
+      <article><h3>Direct üçün cavab</h3><p data-copy></p></article>
+    </div>
+    <div class="studio-actions">
+      <button class="cta" type="button" data-export>Mətnləri yüklə (.txt)</button>
+      <a class="cta" href="marketinq-avtomatlasdirmasi.html">Bunu biznesimdə necə qura bilərəm?</a>
+    </div>
+  </section>
+</section>
 <nav class="experience-nav" aria-label="Digər sınaqlar" data-experience-nav></nav></main>
   <footer id="contacts"></footer>
   <aside id="assistant" aria-label="Sürətli əlaqə"></aside>

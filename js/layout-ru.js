@@ -24,7 +24,7 @@ const logo = `<a class="brand" href="${root}index.html"><img src="${root}../img/
 document.querySelector("#header").innerHTML = `${logo}<nav aria-label="Основное меню">${menu}</nav>
 <button class="menu-toggle" aria-label="Открыть меню" aria-controls="mobile-menu" aria-expanded="false">☰</button>
 <dialog id="mobile-menu" aria-label="Основное меню">
-<a class="brand" href="${root}index.html"><img src="${root}../img/logo-amber.svg" alt="Gajar Agency — главная"></a>
+<a class="brand" href="${root}index.html"><img src="${root}../img/logo-icon.svg" alt="Gajar Agency — главная"></a>
 <button class="close" aria-label="Закрыть меню">×</button><nav>${menu}</nav>
 <div class="menu-social"><a class="cta" href="${whatsapp}">${icon("wa")} Написать в WhatsApp</a>
 <a class="social" href="https://www.instagram.com/gajar.agency/" aria-label="Instagram">${icon("instagram")}</a></div></dialog>`;

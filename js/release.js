@@ -53,7 +53,14 @@
   }
   function phoneDemo(){
     const phone=document.querySelector(".phone-demo");if(!phone)return;
-    const lines=[t("Salam, qiymət neçədir?","Здравствуйте, сколько стоит?"),t("Salam! Hansı xidmət maraqlıdır?","Здравствуйте! Какая услуга вас интересует?"),t("Chatbot","Чатбот"),t("AI chatbot aylıq ","AI-чатбот стоит ")+money(cfg.prices.chatbot)+t(", quraşdırma pulsuzdur. Nömrənizi yazın, əlaqə saxlayaq."," в месяц, настройка бесплатная. Оставьте номер, и мы с вами свяжемся."),cfg.demoPhone,t("Sifariş qəbul olundu ✓","Заявка принята ✓")];
+    const lines=[
+      t("Salam! Axşam ingilis dili dərsi ilə maraqlanıram.","Здравствуйте! Интересуют вечерние занятия английским."),
+      t("Salam! Sizə qrup dərsi uyğundur, yoxsa fərdi dərs?","Здравствуйте! Вам удобнее заниматься в группе или индивидуально?"),
+      t("Qrupda. İşdən sonra gələ bilirəm.","В группе. Могу после работы."),
+      t("Axşam qrupunu qeyd etdim. Cədvəli dəqiqləşdirmək üçün menecer sizə burada yazsın?","Отметил вечернюю группу. Менеджеру написать вам сюда, чтобы уточнить расписание?"),
+      t("Bəli, burada yazsın.","Да, сюда удобно."),
+      t("Müraciəti cədvələ əlavə etdim. Menecerə axşam qrupunu seçdiyinizi bildirdim.","Заявка в таблице. Менеджеру передал, что вам подходит вечерняя группа.")
+    ];
     const log=phone.querySelector(".messages"),typing=phone.querySelector("small");
     const motion=matchMedia("(prefers-reduced-motion: reduce)");let timer;
     function add(i){const p=document.createElement("p");p.className=i%2?"bot-bubble":"user-bubble";p.textContent=lines[i];log.append(p);log.scrollTop=log.scrollHeight;}

@@ -19,7 +19,7 @@
 .simulator .sim-log p {flex:none;max-width:91%;margin:0;padding:9px 12px;white-space:pre-wrap;background:var(--sim-tint);color:var(--cream);border-radius:15px}
 .sim-log strong {display:block;font-size:.78rem;margin-bottom:2px}
 .sim-log .sim-in {align-self:flex-start}
-.simulator .sim-log .sim-out {align-self:flex-end;background:var(--champagne);color:#211808}
+.simulator .sim-log .sim-out {align-self:flex-end;background:var(--champagne);color:#081121}
 .sim-composer,.sim-actions {margin-top:12px}
 .sim-composer {display:grid;gap:8px;justify-items:start}
 .sim-composer label {width:100%}
@@ -33,7 +33,7 @@
   .sim-setup,.sim-columns {grid-template-columns:minmax(0,1fr)}
   .sim-switch {display:flex}
   .sim-switch button {flex:1;padding:8px 10px}
-  .sim-switch [aria-pressed=true] {background:var(--champagne);color:#211808}
+  .sim-switch [aria-pressed=true] {background:var(--champagne);color:#081121}
   .sim-work[data-view=manager] .sim-phone,.sim-work[data-view=customer] .sim-manager {display:none}
   .simulator .sim-actions button {text-align:start}
 }

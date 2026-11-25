@@ -28,7 +28,7 @@
   [
     "Услуги",
     "Какие услуги вы предлагаете?",
-    "Мы настраиваем чатботов, готовим видео и дизайн, ведём Meta Ads и автоматизируем маркетинг и бизнес-процессы."
+    "Мы автоматизируем ответы клиентам, регистрацию заказов и отчёты. Для продвижения готовим контент и помогаем управлять рекламой в Meta Ads."
   ],
   [
     "Чатбот",
@@ -90,7 +90,9 @@
   function schedule() {
     clearInterval(timer);
 
-    if (automatic && !reduced.matches && !hovering && !faqPanel.contains(document.activeElement) && faqVisible && !document.hidden) timer = setInterval(() => selectQuestion((current + 1) % questions.length), 8500);
+    const running = automatic && !reduced.matches && !hovering && !faqPanel.contains(document.activeElement) && faqVisible && !document.hidden;
+    faqPanel.classList.toggle("orbit-running", running);
+    if (running) timer = setInterval(() => selectQuestion((current + 1) % questions.length), 8500);
   }
   buttons.forEach((button,i) => button.onclick = () => {automatic = false; selectQuestion(i); schedule();});
   faqPanel.onpointerenter = e => { hovering = e.pointerType !== "touch"; schedule(); };
@@ -158,10 +160,10 @@
         const b=nodes[j], distance=Math.hypot(a.x-b.x,a.y-b.y);
         const reach=b===center ? 280 : 180;
         if(distance>=reach) continue;
-        ctx.strokeStyle="rgba(222,173,87," + (1-distance/reach)*.44 + ")";
+        ctx.strokeStyle="rgba(87,135,222," + (1-distance/reach)*.44 + ")";
         ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
       }
-      ctx.fillStyle="#bc944fa8";ctx.beginPath();ctx.arc(a.x,a.y,1.7,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="#4f75bca8";ctx.beginPath();ctx.arc(a.x,a.y,1.7,0,Math.PI*2);ctx.fill();
     });
     if (!reduced.matches && visible && !document.hidden) frame=requestAnimationFrame(draw);
   }

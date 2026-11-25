@@ -32,6 +32,18 @@
 .studio-path{list-style:none;margin:0;padding:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .studio-path li{min-width:0;padding:16px;border:1px solid var(--studio-line);border-radius:16px;background:var(--studio-tint);overflow-wrap:anywhere}
 .studio-path h3{color:var(--light);margin-bottom:10px;font-size:1rem}
+#sales-studio :is(textarea,select){box-sizing:border-box;width:100%;min-width:0;padding:12px 14px;font:inherit;color:var(--cream);background:var(--dark);border:1px solid var(--studio-line);border-radius:12px}
+#sales-studio textarea{resize:vertical}
+#sales-studio :is(#brief-help,[data-mode],[data-notice]){margin:0;color:var(--muted);font-size:.94rem}
+#sales-studio [data-notice]:empty{display:none}
+.studio-input-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.studio-upload{position:relative;display:inline-flex;align-items:center;border:1px solid var(--studio-line);border-radius:16px;padding:9px 15px;cursor:pointer}
+.studio-upload:focus-within{outline:2px solid var(--gold);outline-offset:2px}
+.studio-upload input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.content-kit{display:grid;gap:12px}
+.content-kit article{border-inline-start:3px solid var(--gold);padding:16px 18px;background:var(--studio-tint);border-radius:0 12px 12px 0;min-width:0}
+.content-kit h3{font-size:1.05rem;margin:0 0 8px}
+.content-kit p{white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
 @media(max-width:760px){
   .studio-path{grid-template-columns:1fr}
   .studio-message{max-width:95%}

@@ -1,0 +1,87 @@
+.workflow-demo {
+  min-width: 0;
+  border-color: var(--gold);
+}
+
+.workflow-picker,
+.workflow-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+}
+
+.workflow-picker .cta[aria-pressed="true"] {
+  background: var(--champagne);
+  color: #101a2c;
+  border-color: var(--gold);
+}
+
+.workflow-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: .8rem;
+  margin-block: 1.4rem;
+}
+
+.workflow-controls label {
+  display: grid;
+  gap: .4rem;
+  min-width: 0;
+}
+
+.workflow-controls select {
+  width: 100%;
+  min-width: 0;
+  padding: .8rem;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  background: var(--dark);
+  color: var(--cream);
+}
+
+.workflow-feedback {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .75fr);
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.workflow-history {
+  margin: 0;
+  padding-inline-start: 1.7rem;
+}
+
+.workflow-history li {
+  padding: .65rem .25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.workflow-history li::marker {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.workflow-result {
+  padding: 1rem;
+  border: 1px solid var(--gold);
+  border-radius: 16px;
+  background: var(--warm-card);
+}
+
+.workflow-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.workflow-result > .cta {
+  margin-top: 1rem;
+}
+
+@media (max-width: 700px) {
+  .workflow-controls, .workflow-feedback { grid-template-columns: minmax(0, 1fr); }
+  .workflow-page .cta { white-space: normal; }
+}

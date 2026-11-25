@@ -1,8 +1,9 @@
 window.GajarConfig = {
+  // Kontent studiyası n8n-ə {type,lang,offer,brief,goal} göndərir və {post,reel,reply} gözləyir.
+  contentWebhookUrl:"",
   leadWebhookUrl:"", email:"gajar.agency@gmail.com", metaPixelId:"", clarityId:"", ga4Id:"",
-  showreelUrl:"", showreelPoster:"", scanPage:"biznes-skan.html",
-  simulatorPage:"biznes-sina.html", rulesPage:"botu-sina.html", salesStudioPage:"satis-yolu.html",
-  sectors:[["tehsil-merkezleri","Təhsil mərkəzləri","Учебные центры"],["klinikalar","Klinikalar və estetik mərkəzlər","Клиники и эстетические центры"],["restoranlar","Restoranlar və kafelər","Рестораны и кафе"],["onlayn-magazalar","Onlayn mağazalar","Интернет-магазины"]],
+  showreelUrl:"", showreelPoster:"",
+  simulatorPage:"biznes-sina.html", rulesPage:"botu-sina.html", salesStudioPage:"satis-yolu.html", workflowDemoPage:"is-axinlari.html",
   webhookUrl: "", demoBotWhatsapp: "", counterCsvUrl: "", lessonDate: "", referralReward: "", voiceDemoUrl: "audio/operator-demo.mp3",
   whatsapp: "https://wa.me/994997957905", phone: "tel:+994997957905", instagram: "https://www.instagram.com/gajar.agency/",
   prices: {START:299, PRO:599, GAJAR:999, chatbot:300, ads:400}, budgetBands:[300,700],
@@ -35,7 +36,7 @@ window.GajarConfig = {
   const media = matchMedia("(prefers-color-scheme: dark)");
   let preference;
   try { preference = localStorage.getItem("gajar-theme"); } catch {}
-  const apply = () => document.documentElement.dataset.theme = preference || (media.matches ? "dark" : "light");
+  const apply = () => document.documentElement.dataset.theme = preference || "light";
   apply();
   media.addEventListener("change",apply);
   window.toggleTheme = () => {

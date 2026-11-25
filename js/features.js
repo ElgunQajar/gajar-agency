@@ -7,15 +7,6 @@
   const asset=src=>new URL(src,new URL((ru?"../":"")+base,document.baseURI)).href;
   const pages=base+"pages/";
   const home=document.body.dataset.page==="index";
-  document.querySelectorAll("[data-scan-link]").forEach(a=>{
-    if(cfg.scanPage){a.href=pages+cfg.scanPage;a.hidden=false;}
-  });
-  document.querySelectorAll("[data-sector-wa]").forEach(a=>{
-    if(!cfg.whatsapp)return;
-    const message=t("Bu sahə üçün avtomatlaşdırma barədə məlumat istəyirəm: ","Хочу узнать об автоматизации для отрасли: ")+a.dataset.sector;
-    a.href=cfg.whatsapp+"?text="+encodeURIComponent(message);a.hidden=false;
-  });
-
   function load(src){
     const script=document.createElement("script");
     script.async=true;script.src=src;document.head.append(script);
@@ -65,28 +56,14 @@
     a.href="mailto:"+cfg.email.trim();a.hidden=false;
     if(!a.dataset.icon)a.textContent=cfg.email.trim();
   });
-  const sectors=(cfg.sectors||[]).filter(item=>item[0]&&item[ru?2:1]);
-  document.querySelectorAll("#header nav").forEach(nav=>{
-    if(!sectors.length)return;
-    const menu=document.createElement("details");menu.className="sector-menu";
-    const title=document.createElement("summary");title.textContent=t("Sahələr","Отрасли");menu.append(title);
-    const links=document.createElement("div");
-    sectors.forEach(([slug,az,rus])=>{
-      const a=document.createElement("a");a.href=pages+slug+".html";a.textContent=t(az,rus);
-      if(location.pathname.endsWith("/"+slug+".html"))a.setAttribute("aria-current","page");
-      links.append(a);
-    });
-    menu.append(links);nav.children[2]?.after(menu);
-    document.addEventListener("click",e=>{if(!menu.contains(e.target))menu.open=false;});
-    menu.addEventListener("keydown",e=>{if(e.key==="Escape"&&menu.open){e.stopPropagation();menu.open=false;title.focus();}});
-  });
   const botTools=[
     [cfg.simulatorPage,t("Öz biznesini müştəri kimi sına","Станьте клиентом своего бизнеса"),t("Bir mesaj göndərin. Həm müştərinin telefonuna, həm də menecerin ekranına baxın.","Отправьте сообщение и посмотрите на него глазами клиента и менеджера."),t("Söhbətə başla","Начать диалог")],
     [cfg.rulesPage,t("Botu çətinə sal","Испытайте бота сложным вопросом"),t("Endirim istəyən və ya fikrini dəyişən müştəri üçün botun sərhədlərini siz müəyyən edin.","Решите, что может сделать бот, если клиент просит скидку или меняет заказ."),t("Qaydaları seç","Задать правила")],
   ].filter(([file])=>file);
   const businessTools=[
-    [cfg.salesStudioPage,t("Bir təklifin satış yolu","Путь от предложения до заявки"),t("Öz məhsulunuz üçün video açılışını, reklam sualını və botun cavabını birləşdirin.","Соберите начало ролика, вопрос из рекламы и ответ бота для своего продукта."),t("Ssenari hazırla","Собрать сценарий")],
-    [cfg.scanPage,t("Biznesinizi skan edin","Проверьте свой бизнес"),t("Altı suala cavab verin və sabah ofisdə sınamaq üçün bir tapşırıq götürün.","Ответьте на шесть вопросов и получите задачу, которую можно попробовать завтра в офисе."),t("Testə başla","Пройти тест")]
+    [cfg.workflowDemoPage,t("Avtomatlaşdırmanı iş başında görün","Посмотрите автоматизацию в работе"),t("Müraciət, sifariş və reklam qərarının addımlarını işə salın. Sistemin nəyi qeydə aldığını və harada təsdiq istədiyini görün.","Запустите сценарий заявки, заказа или решения по рекламе. Посмотрите, что система записывает и когда спрашивает согласование."),t("İş axınını sına","Запустить демо")],
+    [cfg.salesStudioPage,t("Avtomatik kontent studiyası","Автоматическая контент-студия"),t("Məhsul məlumatını daxil edin. Paylaşım mətni, video ssenarisi və müştəriyə cavab alın.","Добавьте сведения о продукте, чтобы получить пост, сценарий ролика и ответ клиенту."),t("Kontent hazırla","Подготовить контент")],
+    ["meta-ads.html",t("Reklam büdcəsi hara gedir?","Куда уходит рекламный бюджет?"),t("Reklam botunun nəticələri necə müqayisə etdiyini və növbəti addımı necə seçdiyini sınayın.","Посмотрите, как бот сравнивает результаты рекламы и предлагает следующий шаг."),t("Analizi sına","Попробовать анализ")]
   ].filter(([file])=>file);
   const hubPath="ai-chatbot.html#bot-sinaqlari";
   const hubTitle=t("Chatbotu almadan əvvəl sına","Попробуйте чатбота перед покупкой");
@@ -101,9 +78,12 @@
   }
   if(home){
     const section=document.createElement("section");section.className="panel release-panel scan-invite";
-    const title=document.createElement("h2");title.textContent=t("Biznesinizdə sınayın","Попробуйте на своём бизнесе");
+    const title=document.createElement("h2");title.textContent=t("Hansı iş vaxtınızı alır?","Какая задача отнимает ваше время?");
     const grid=document.createElement("div");grid.className="experience-grid";
-    addCards(grid,businessTools);
+    addCards(grid,[
+      ["biznes-prosesleri.html",t("Sifarişi cədvələ əllə köçürürsünüz?","Переносите заказы в таблицу вручную?"),t("Məlumatı müştəridən bir dəfə alın. Sistem sifarişi qeydə alsın və məsul şəxsə bildirsin.","Получите данные от клиента один раз. Система запишет заказ и уведомит ответственного."),t("Sifariş nümunəsinə bax","Посмотреть пример заказа")],
+      ...businessTools
+    ]);
     const hubLink=document.createElement("a");hubLink.href=pages+hubPath;hubLink.className="cta";
     hubLink.textContent=hubTitle+" →";
     section.append(title,grid,hubLink);
@@ -125,15 +105,6 @@
   if(experienceNav)for(const [file,name] of experiences){
     if(location.pathname.endsWith("/"+file))continue;
     const a=document.createElement("a");a.href=pages+file;a.textContent=name+" →";experienceNav.append(a);
-  }
-  if(cfg.simulatorPage){
-    const industry=document.querySelector(".industry-example>div");
-    const sectorByPage={"klinikalar":0,"restoranlar":1,"onlayn-magazalar":2,"tehsil-merkezleri":3};
-    const sector=sectorByPage[document.body.dataset.page];
-    if(industry&&sector!==undefined){
-      const a=document.createElement("a");a.className="cta";a.href=pages+cfg.simulatorPage+"?sector="+sector;
-      a.textContent=t("Bu dialoqu özün sına →","Попробовать диалог →");industry.append(a);
-    }
   }
   if(home&&cfg.showreelUrl?.trim()){
     const hero=document.querySelector(".hero-inner"), phone=hero.querySelector(".phone-demo");

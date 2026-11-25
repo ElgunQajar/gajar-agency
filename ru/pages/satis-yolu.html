@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <script src="../../js/config.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Путь от предложения до заявки | Gajar Agency</title>
-  <meta name="description" content="Соберите начало ролика, вопрос из рекламы и ответ бота для своего товара или услуги.">
+  <title>Автоматическая контент-студия | Gajar Agency</title>
+  <meta name="description" content="Опишите предложение или загрузите файл. Получите текст поста, сценарий ролика и ответ клиенту.">
   <link rel="canonical" href="https://gajar.agency/ru/pages/satis-yolu.html">
   <meta property="og:url" content="https://gajar.agency/ru/pages/satis-yolu.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Путь от предложения до заявки | Gajar Agency">
-  <meta property="og:description" content="Соберите начало ролика, вопрос из рекламы и ответ бота для своего товара или услуги.">
+  <meta property="og:title" content="Автоматическая контент-студия | Gajar Agency">
+  <meta property="og:description" content="Опишите предложение или загрузите файл. Получите текст поста, сценарий ролика и ответ клиенту.">
   <meta property="og:image" content="https://gajar.agency/img/logo-profile-black-ring.png">
   <link rel="icon" href="../../img/favicon-64.png">
   <link rel="apple-touch-icon" href="../../img/favicon-512.png">
@@ -27,12 +27,45 @@
 <link rel="alternate" hreflang="az" href="https://gajar.agency/pages/satis-yolu.html">
 <link rel="alternate" hreflang="ru" href="https://gajar.agency/ru/pages/satis-yolu.html">
 <link rel="stylesheet" href="../../css/studio.css">
-<script defer src="../../js/studio.js"></script></head>
+<script defer src="../../js/content-studio.js"></script></head>
 <body data-other="../../pages/satis-yolu.html" data-root="../" data-page="satis-yolu">
   <a class="skip" href="#main">Перейти к содержанию</a>
   <header id="header" class="champagne"></header>
-  <main class="service-page experience-page" id="main"><header class="pricing-head"><h1>Путь от предложения до заявки</h1><p>Соберите начало ролика, вопрос из рекламы и ответ бота для своего товара или услуги.</p></header>
-<section id="sales-studio" class="panel" aria-label="Путь от предложения до заявки"></section>
+  <main class="service-page experience-page" id="main"><header class="pricing-head"><h1>Автоматическая контент-студия</h1><p>Опишите предложение или загрузите файл. Получите текст поста, сценарий ролика и ответ клиенту.</p></header>
+<section id="sales-studio" class="panel" aria-label="Автоматическая контент-студия">
+  <form class="studio-form">
+    <label>Ваш бриф
+      <textarea name="brief" rows="6" maxlength="6000" required aria-describedby="brief-help" placeholder="Название товара или услуги"></textarea>
+    </label>
+    <p id="brief-help">На первой строке укажите название предложения. Ниже добавьте детали, которые стоит знать клиенту.</p>
+    <div class="studio-input-actions">
+      <label class="studio-upload">Загрузить из TXT<input type="file" accept=".txt,text/plain" name="source"></label>
+      <button type="button" class="studio-secondary" data-example>Взять пример брифа</button>
+    </div>
+    <label>Что предложить читателю?
+      <select name="goal">
+        <option value="consult">Задать вопрос</option>
+        <option value="order">Оформить заказ</option>
+        <option value="book">Записаться</option>
+      </select>
+    </label>
+    <p data-mode>Локальная демоверсия собирает тексты из фактов вашего брифа прямо в браузере.</p>
+    <button type="submit" class="cta gold">Подготовить контент</button>
+    <p role="status" data-notice></p>
+  </form>
+  <section class="studio-preview" data-result hidden>
+    <h2 tabindex="-1">Ваш контент готов</h2>
+    <div class="content-kit">
+      <article><h3>Пост для Instagram</h3><p data-copy></p></article>
+      <article><h3>Сценарий Reels</h3><p data-copy></p></article>
+      <article><h3>Ответ в Direct</h3><p data-copy></p></article>
+    </div>
+    <div class="studio-actions">
+      <button class="cta" type="button" data-export>Скачать тексты (.txt)</button>
+      <a class="cta" href="marketinq-avtomatlasdirmasi.html">Как настроить это для бизнеса?</a>
+    </div>
+  </section>
+</section>
 <nav class="experience-nav" aria-label="Другие сценарии" data-experience-nav></nav></main>
   <footer id="contacts"></footer>
   <aside id="assistant" aria-label="Быстрая связь"></aside>

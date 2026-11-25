@@ -4,100 +4,100 @@ window.serviceCatalog = [
     "AI-чатбот",
     "Gecə suallar cavabsız qalır.",
     "Ночью вопросы остаются без ответа.",
-    "Botu biznesinizin məlumatları ilə qururuq.",
-    "Настраиваем ответы по материалам компании.",
-    "Müştəri istənilən saatda cavab alır.",
-    "Клиент получает ответ в любое время."
+    "Gecə gələn sualı bot cavablandırsın, menecer səhər kiminlə əlaqə saxlayacağını bilsin.",
+    "Бот ответит на ночной вопрос, а утром менеджер увидит, кому перезвонить.",
+    "Menecer müraciəti müştərinin seçimi ilə birlikdə alır.",
+    "Менеджер получает заявку с выбором клиента."
   ],
   [
     "AI video və dizayn",
     "AI-видео и дизайн",
     "Kontent hazırlamağa vaxt çatmır.",
     "Не хватает времени на публикации.",
-    "Aylıq planla video və post hazırlayırıq.",
-    "Создаём ролики и посты по плану на месяц.",
-    "Paylaşmağa hazır materialınız olur.",
-    "У вас есть готовые материалы для публикаций."
+    "Bir məhsul brifindən video ssenarisi və post qaralaması alın. Yayımdan əvvəl mətn və üslubu siz təsdiqləyirsiniz.",
+    "Получите сценарий и черновик поста из одного брифа о продукте. Перед публикацией вы утверждаете текст и тон.",
+    "Komanda faktları yoxlayır, siz təsdiqləyəndən sonra material aylıq plana düşür.",
+    "Команда сверяет факты. После вашего одобрения материал попадает в план."
   ],
   [
-    "Meta Ads",
-    "Meta Ads",
+    "Meta Ads avtomatlaşdırması",
+    "Автоматизация Meta Ads",
     "Reklam uyğun alıcıya çatmır.",
     "Реклама не находит своего покупателя.",
-    "Auditoriyanı seçib kampaniyanı idarə edirik.",
-    "Подбираем аудиторию и ведём кампанию.",
-    "Müraciətin hansı reklamdan gəldiyini görürsünüz.",
-    "Вы видите, какая реклама приносит обращения."
+    "Gündəlik reklam nəzarətini AI bota həvalə edin. Ayrıca targetoloq tutmadan müraciətin xərcini izləyin, büdcə və reklamla bağlı əsaslandırılmış təkliflər alın.",
+    "Передайте ежедневный контроль рекламы AI-боту. Следите за стоимостью заявки и получайте обоснованные предложения по бюджету и объявлениям без найма отдельного таргетолога.",
+    "Siz təklifin səbəbini görüb növbəti addımı təsdiqləyirsiniz.",
+    "Вы видите основание рекомендации и согласуете следующий шаг."
   ],
   [
     "Marketinq avtomatlaşdırması",
     "Автоматизация маркетинга",
     "Müraciətləri izləmək çətindir.",
     "Трудно отследить обращения.",
-    "Qeydiyyat və təkrar əlaqəni qururuq.",
-    "Настраиваем учёт заявок и повторные сообщения.",
-    "Növbəti addım komandanın yadından çıxmır.",
-    "Команда знает, с кем связаться дальше."
+    "Müraciətin mənbəyini qeyd edin və cavab gözləyən müştərilər üçün xatırlatmaları avtomatlaşdırın.",
+    "Сохраняйте источник обращения и автоматически напоминайте менеджеру о клиентах, ожидающих ответа.",
+    "Cavab qeydə alınmayanda menecer xatırlatma alır. Müraciət bağlananda xatırlatma dayanır.",
+    "Пока ответ не отмечен, менеджеру приходит напоминание. Когда заявка закрыта, напоминания прекращаются."
   ],
   [
     "Biznes proseslərinin avtomatlaşdırılması",
     "Автоматизация бизнес-процессов",
     "Sifarişlər əl ilə köçürülür.",
     "Заказы приходится переносить вручную.",
-    "n8n ilə alətləri əlaqələndiririk.",
-    "Связываем рабочие инструменты через n8n.",
-    "Məlumat növbəti mərhələyə avtomatik keçir.",
-    "Данные переходят на следующий этап автоматически."
+    "Sifarişi bir dəfə qəbul edin. Yoxlama, qeydiyyat, sənəd və bildiriş bir iş axınında getsin.",
+    "Примите заказ один раз. Проверка, запись, документ и уведомление пройдут в одном процессе.",
+    "Tam sifariş cədvələ düşür, sənəd hazırlanır və anbara bildiriş gedir.",
+    "Полный заказ попадает в таблицу. Система готовит документ и уведомляет склад."
   ],
   [
     "SMM",
     "SMM",
     "Səhifəyə vaxt çatmır.",
     "Нет времени вести страницу.",
-    "Paylaşımları planlaşdırmaq.",
-    "Планировать публикации.",
-    "Ardıcıl ünsiyyət.",
-    "Регулярное общение."
+    "Sosial şəbəkələr üçün mövzu, qaralama və paylaşım təqvimini birləşdirin.",
+    "Свяжите выбор темы, подготовку черновика и календарь публикаций.",
+    "Təsdiqlədiyiniz paylaşım təqvimə düşür. Düzəliş istəsəniz, qaralama yenilənir.",
+    "Одобренный пост попадает в календарь. По вашему комментарию черновик дорабатывается."
   ],
   [
     "CRM",
     "CRM",
     "Müştəri tarixçəsi dağınıqdır.",
     "История клиента разбросана.",
-    "Müraciətləri toplamaq.",
-    "Объединить обращения.",
-    "Vahid müştəri tarixçəsi.",
-    "Единая история клиента."
+    "Müxtəlif kanallardan gələn yazışmaları vahid müştəri tarixçəsində toplayın.",
+    "Соберите переписку из разных каналов в карточке клиента.",
+    "Menecer əvvəlki danışığı və növbəti əlaqə tarixini bir yerdə görür.",
+    "Менеджер видит прошлый диалог и дату следующего контакта."
   ],
   [
     "ERP",
     "ERP",
     "Resurslar ayrı cədvəllərdədir.",
     "Ресурсы учитываются отдельно.",
-    "İş proseslərini bağlamaq.",
-    "Связать процессы.",
-    "Vahid iş mühiti.",
-    "Общее рабочее пространство."
+    "Sifariş, anbar və satınalma məlumatlarını avtomatik əlaqələndirin.",
+    "Свяжите заказы, склад и закупки без ручного переноса данных.",
+    "Qalıq həddən aşağı düşəndə satınalma üzrə məsul şəxsə sifariş layihəsi gəlir.",
+    "Если запас ниже порога, ответственный за закупки получает проект заявки."
   ],
   [
     "Şəxsi AI assistent",
     "Личный AI-ассистент",
     "Rutin işlər vaxt aparır.",
     "Рутина отнимает время.",
-    "Təqvim və tapşırıqları əlaqələndirmək.",
-    "Связать календарь и задачи.",
-    "Günün planını bir yerdə görmək.",
-    "Видеть план дня в одном месте."
+    "Görüş vaxtı axtarışını, tapşırıqları və xatırlatmaları köməkçiyə verin.",
+    "Поручите ассистенту поиск времени для встреч, создание задач и напоминаний.",
+    "Seçiminizdən sonra görüşü qeyd edir və hazırlıq üçün xatırlatma qurur.",
+    "После вашего выбора он записывает встречу и создаёт напоминание о подготовке."
   ],
   [
     "Səsli AI operator",
     "Голосовой AI-оператор",
     "Zənglər cavabsız qalır.",
     "Звонки остаются без ответа.",
-    "Zəngə insan səsinə bənzər səslə cavab vermək.",
-    "Отвечать на звонки естественным голосом.",
-    "Zəng edən ilkin cavab alır.",
-    "Звонящий получает первый ответ."
+    "Gələn zəngi qarşılayın və danışıqdan sonra məsul şəxsə tapşırıq yaradın.",
+    "Принимайте звонки и передавайте задачу ответственному по итогам разговора.",
+    "Komanda danışığın xülasəsini və geri zəng tapşırığını alır.",
+    "Команда получает краткое содержание разговора и задачу перезвонить."
   ]
 ];
 window.chatFeatures = [
