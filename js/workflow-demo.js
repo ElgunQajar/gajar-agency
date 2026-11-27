@@ -5,6 +5,15 @@
   const workspace = document.querySelector("[data-workspace]");
   const scenarios = [
     {
+      name:t("Kontentdən paylaşıma","От контента до публикации"),
+      question:t("Bu həftə nə paylaşmaq istəyirsiniz?","Что хотите опубликовать на этой неделе?"),
+      options:[
+        {input:t("Reels videosu","Видео Reels"),steps:[t("Brend profilindən auditoriya, ton və təklif seçilir.","Из профиля бренда выбираются аудитория, тон и предложение."),t("Ssenari, kadr planı, səsləndirmə və subtitr hazırlanır. Montajı komanda yoxlayır.","Готовятся сценарий, раскадровка, голос и субтитры. Команда проверяет монтаж."),t("Siz video və paylaşım mətnini birlikdə nəzərdən keçirirsiniz.","Вы проверяете ролик и подпись вместе.")],approval:t("Nümunə video təqvimə əlavə edildi. Qoşulmuş hesabda təsdiqdən sonra yayımlanar.","Демонстрационный ролик добавлен в календарь. На подключённом аккаунте публикация выйдет после согласования.")},
+        {input:t("Şəkilli post və karusel","Пост с изображением или карусель"),steps:[t("Müştərilərin tez verdiyi sualdan mövzu seçilir.","Тема берётся из частого вопроса клиентов."),t("AI başlıq, mətn və slayd eskizlərini brend üslubunda hazırlayır.","ИИ готовит заголовок, текст и эскизы слайдов в стиле бренда."),t("Redaktor faktları və son slayddakı çağırışı yoxlayır.","Редактор сверяет факты и призыв на последнем слайде.")],approval:t("Nümunə paylaşım təsdiqləndi və təqvimə əlavə edildi.","Демонстрационная публикация согласована и поставлена в календарь.")}
+      ]
+    },
+
+    {
       name: t("Instagram müraciəti", "Заявка из Instagram"),
       question: t("Müştəri nə yazır?", "Что написал клиент?"),
       options: [

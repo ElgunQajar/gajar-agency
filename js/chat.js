@@ -1,11 +1,11 @@
 // Çatın interfeysi və WhatsApp ehtiyat keçidi.
 const panel = document.querySelector("#assistant");
 const endpoint = window.GajarConfig.webhookUrl.trim();
-panel.innerHTML = `<section id="chat" class="chat" aria-label="AI köməkçi" hidden>
-<header><strong>AI köməkçi</strong><button type="button" aria-label="Çatı bağla">×</button></header>
+panel.innerHTML = `<section id="chat" class="chat" aria-label="Gajar AI" hidden>
+<header><strong>Gajar AI</strong><button type="button" aria-label="Çatı bağla">×</button></header>
 <div class="chat-log" role="log" aria-live="polite"><p>${endpoint ? "Salam! Gajar Agency haqqında nə bilmək istəyirsiniz?" : "Salam! Sualınızı yazın. Mesajınız WhatsApp-da göndərilməyə hazır açılacaq."}</p></div>
 <form><input aria-label="Mesajınız" placeholder="Mesajınızı yazın…" required maxlength="2000"><button>Göndər</button></form></section>
-<button type="button" class="fab" id="chat-toggle" aria-expanded="false" aria-controls="chat" aria-label="AI köməkçi" title="AI köməkçi">${icon("bot")}</button>
+<button type="button" class="fab" id="chat-toggle" aria-expanded="false" aria-controls="chat" aria-label="Gajar AI" title="Gajar AI">${icon("bot")}</button>
 <a class="fab wa" href="${whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp-a yaz" title="WhatsApp-a yaz">${icon("wa")}</a>`;
 const chat = panel.querySelector("#chat");
 const launcher = panel.querySelector("#chat-toggle");

@@ -2,46 +2,46 @@ window.serviceCatalog = [
   [
     "AI Chatbot",
     "AI-чатбот",
-    "Gecə suallar cavabsız qalır.",
-    "Ночью вопросы остаются без ответа.",
-    "Gecə gələn sualı bot cavablandırsın, menecer səhər kiminlə əlaqə saxlayacağını bilsin.",
-    "Бот ответит на ночной вопрос, а утром менеджер увидит, кому перезвонить.",
-    "Menecer müraciəti müştərinin seçimi ilə birlikdə alır.",
-    "Менеджер получает заявку с выбором клиента."
+    "Müştəri qərar verməyə hazır olanda cavabı kim davam etdirir?",
+    "Кто подхватывает разговор, когда клиент готов выбрать?",
+    "Bot qiyməti və şərtləri sizin kataloqdan izah edir, ehtiyacı suallarla dəqiqləşdirir və söhbəti həmin yerdən davam etdirir.",
+    "Бот объясняет цену и условия по вашему каталогу, задаёт уточняющие вопросы и помнит, на чём остановился разговор.",
+    "Menecerə təkcə nömrə gəlmir. O, müştərinin nə istədiyini, nəyi soruşduğunu və hansı addıma hazır olduğunu görür.",
+    "Менеджер видит запрос, вопросы и следующий шаг клиента прямо в карточке обращения."
   ],
   [
     "AI video və dizayn",
     "AI-видео и дизайн",
-    "Kontent hazırlamağa vaxt çatmır.",
-    "Не хватает времени на публикации.",
-    "Bir məhsul brifindən video ssenarisi və post qaralaması alın. Yayımdan əvvəl mətn və üslubu siz təsdiqləyirsiniz.",
-    "Получите сценарий и черновик поста из одного брифа о продукте. Перед публикацией вы утверждаете текст и тон.",
-    "Komanda faktları yoxlayır, siz təsdiqləyəndən sonra material aylıq plana düşür.",
-    "Команда сверяет факты. После вашего одобрения материал попадает в план."
+    "Hər paylaşım üçün mövzunu və tapşırığı yenidən izah edirsiniz?",
+    "Каждую публикацию начинаете с нового задания?",
+    "Brendinizi bir dəfə tanıdırıq. AI plana uyğun post mətni, vizual və video hazırlayır. Faktları və son variantı təsdiqləyirsiniz.",
+    "Один раз знакомим систему с брендом. ИИ готовит тексты, визуалы и видео по плану, а вы утверждаете факты и финальную версию.",
+    "İstəsəniz sistemi komandanıza qururuq, istəsəniz istehsalı Gajar komandası aparır.",
+    "Настроим производство для вашей команды или возьмём создание материалов на себя."
   ],
   [
     "Meta Ads avtomatlaşdırması",
     "Автоматизация Meta Ads",
-    "Reklam uyğun alıcıya çatmır.",
-    "Реклама не находит своего покупателя.",
-    "Gündəlik reklam nəzarətini AI bota həvalə edin. Ayrıca targetoloq tutmadan müraciətin xərcini izləyin, büdcə və reklamla bağlı əsaslandırılmış təkliflər alın.",
-    "Передайте ежедневный контроль рекламы AI-боту. Следите за стоимостью заявки и получайте обоснованные предложения по бюджету и объявлениям без найма отдельного таргетолога.",
-    "Siz təklifin səbəbini görüb növbəti addımı təsdiqləyirsiniz.",
-    "Вы видите основание рекомендации и согласуете следующий шаг."
+    "Reklam pulu hara gedir və hansı elan sizə müştəri gətirir?",
+    "Куда уходит бюджет и какое объявление приводит клиентов?",
+    "AI reklam xərclərini gələn mesajlarla tutuşdurur. Siz hansı elanı dəyişmək lazım olduğunu və səbəbini görürsünüz.",
+    "ИИ сопоставляет расходы по объявлениям с обращениями. Вы видите, что стоит изменить и почему.",
+    "Komanda razılaşdırılmış dəyişiklikləri tətbiq edir və növbəti hesabatda nəticəni müqayisə edir.",
+    "Согласованные изменения вносятся в кампанию, а в следующем отчёте вы видите результат."
   ],
   [
     "Marketinq avtomatlaşdırması",
     "Автоматизация маркетинга",
-    "Müraciətləri izləmək çətindir.",
-    "Трудно отследить обращения.",
-    "Müraciətin mənbəyini qeyd edin və cavab gözləyən müştərilər üçün xatırlatmaları avtomatlaşdırın.",
-    "Сохраняйте источник обращения и автоматически напоминайте менеджеру о клиентах, ожидающих ответа.",
-    "Cavab qeydə alınmayanda menecer xatırlatma alır. Müraciət bağlananda xatırlatma dayanır.",
-    "Пока ответ не отмечен, менеджеру приходит напоминание. Когда заявка закрыта, напоминания прекращаются."
+    "Qiyməti soruşan müştəriyə sonradan kim yazır?",
+    "Кто возвращается к клиенту, который спросил цену?",
+    "Reklamdan gələn müraciət CRM-də açılır. Məsul əməkdaş və növbəti əlaqə tarixi qeyd olunur. Cavab gecikəndə komandanız xatırlatma alır.",
+    "Заявка из рекламы попадает в CRM с ответственным и датой следующего контакта. Команда получает напоминание, если ответ задерживается.",
+    "Sifariş tamamlananda xatırlatma dayanır. Hesabatda hansı reklamın söhbətə və satışa gətirdiyini izləyirsiniz.",
+    "После закрытия заказа напоминания прекращаются. В отчёте можно проследить путь от объявления до продажи."
   ],
   [
-    "Biznes proseslərinin avtomatlaşdırılması",
-    "Автоматизация бизнес-процессов",
+    "Sifarişlərin qəbulu və qeydiyyatı",
+    "Приём и учёт заказов",
     "Sifarişlər əl ilə köçürülür.",
     "Заказы приходится переносить вручную.",
     "Sifarişi bir dəfə qəbul edin. Yoxlama, qeydiyyat, sənəd və bildiriş bir iş axınında getsin.",
@@ -52,12 +52,12 @@ window.serviceCatalog = [
   [
     "SMM",
     "SMM",
-    "Səhifəyə vaxt çatmır.",
-    "Нет времени вести страницу.",
-    "Sosial şəbəkələr üçün mövzu, qaralama və paylaşım təqvimini birləşdirin.",
-    "Свяжите выбор темы, подготовку черновика и календарь публикаций.",
-    "Təsdiqlədiyiniz paylaşım təqvimə düşür. Düzəliş istəsəniz, qaralama yenilənir.",
-    "Одобренный пост попадает в календарь. По вашему комментарию черновик дорабатывается."
+    "Paylaşım təqviminə kim cavabdehdir?",
+    "Кто отвечает за календарь публикаций?",
+    "Gajar əməkdaşı mövzuları sizinlə seçir. AI materialları hazırlayır, əməkdaş redaktə edir və təsdiqlədiyiniz təqvimlə paylaşır.",
+    "Специалист Gajar согласует темы. ИИ готовит материалы, специалист редактирует и публикует по утверждённому календарю.",
+    "Görüşdə növbəti ayın istiqamətini seçirsiniz, gündəlik səhifə işlərini komandamız aparır.",
+    "Вы выбираете направление на месяц, а повседневное ведение страницы берёт на себя команда."
   ],
   [
     "CRM",
@@ -82,12 +82,12 @@ window.serviceCatalog = [
   [
     "Şəxsi AI assistent",
     "Личный AI-ассистент",
-    "Rutin işlər vaxt aparır.",
-    "Рутина отнимает время.",
-    "Görüş vaxtı axtarışını, tapşırıqları və xatırlatmaları köməkçiyə verin.",
-    "Поручите ассистенту поиск времени для встреч, создание задач и напоминаний.",
-    "Seçiminizdən sonra görüşü qeyd edir və hazırlıq üçün xatırlatma qurur.",
-    "После вашего выбора он записывает встречу и создаёт напоминание о подготовке."
+    "Görüşdən çıxanda qərarlarınız kimin tapşırığına çevrilir?",
+    "Кто превращает решения после встречи в задачи?",
+    "Səhər assistent günün görüşlərini və qərar gözləyən məsələləri toplayır. Səsli tapşırığınızdan məktub layihəsi, məsul şəxs və son tarix çıxarır.",
+    "Утром ассистент собирает расписание и решения, которые ждут вас. Из голосового поручения готовит письмо, задачу, ответственного и срок.",
+    "İcazənizlə səs və sima modeliniz təsdiqlənmiş videoları səsləndirə, onlayn görüşdə özünü rəqəmsal nümayəndə kimi təqdim edib razılaşdırılmış mətni oxuya bilər. Qərarlar sizdə qalır.",
+    "С вашего согласия цифровой двойник озвучивает утверждённые видео. На встрече он представляется цифровым представителем и передаёт согласованный текст. Решения принимаете вы."
   ],
   [
     "Səsli AI operator",

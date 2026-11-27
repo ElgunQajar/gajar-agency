@@ -6,19 +6,20 @@
   const prospect = document.querySelector("[data-prospect]");
 
   if (ads) {
-    ads.innerHTML = '<form><div class="demo-fields"></div><button class="cta">' + t("Təklifi hesabla", "Рассчитать предложение") + '</button></form><div class="demo-reply" aria-live="polite" hidden></div>';
+    ads.innerHTML = '<form><div class="demo-fields"></div><button class="cta">' + t("Bir müraciətin qiymətini hesabla", "Рассчитать цену обращения") + '</button></form><div class="demo-reply" aria-live="polite" hidden></div>';
     const form = ads.querySelector("form");
     const output = ads.querySelector(".demo-reply");
     const fields = [
-      ["spend", t("Dövr üzrə xərc (₼)", "Расход за период (₼)"), "0", "0.01"],
-      ["leads", t("Həmin dövrdə müraciətlər", "Обращения за тот же период"), "0", "1"],
-      ["goal", t("Müraciət üçün xərc hədəfi (₼)", "Целевая стоимость обращения (₼)"), "0.01", "0.01"]
+      ["spend", t("Son 7 gündə reklama neçə manat xərclədiniz?", "Сколько манатов вы потратили на рекламу за последние 7 дней?"), "0", "0.01"],
+      ["leads", t("Həmin 7 gündə reklamdan sizə neçə nəfər yazdı və ya zəng etdi?", "Сколько человек написали или позвонили по рекламе за эти 7 дней?"), "0", "1"],
+      ["goal", t("Bir nəfərin sizə yazması üçün ən çox neçə manat ödəmək istəyirsiniz?", "Сколько манатов вы готовы заплатить за одно обращение?"), "0.01", "0.01"]
     ];
     for (const [name, caption, min, step] of fields) {
       const label = document.createElement("label");
       label.textContent = caption;
       const input = document.createElement("input");
       Object.assign(input, {name, type:"number", required:true, min, step, max:"999999999"});
+      input.placeholder = ["150", "15", "12"][fields.findIndex(row => row[0] === name)];
       input.inputMode = step === "1" ? "numeric" : "decimal";
       label.append(input);
       form.querySelector(".demo-fields").append(label);
@@ -61,6 +62,15 @@
 
   if (prospect) {
     const endpoint = cfg.webhookUrl?.trim();
+    if (!endpoint) {
+      const prompt = document.createElement("p");
+      prompt.textContent=t("Biznesinizin sahəsini və müştərinizdən gələn tipik sualı bizə göndərin. Canlı demoda botun həmin söhbəti necə apardığını birlikdə yoxlayaq.","Пришлите сферу бизнеса и типичный вопрос клиента. На живом демо вместе посмотрим, как бот проведёт такой разговор.");
+      const link=document.createElement("a");link.className="cta gold";
+      link.href=cfg.whatsapp+"?text="+encodeURIComponent(t("Salam! Öz biznesim üçün canlı chatbot demosu görmək istəyirəm.","Здравствуйте! Хочу посмотреть живую демонстрацию чатбота для моего бизнеса."));
+      link.textContent=t("WhatsApp-da canlı demo istə","Запросить живое демо в WhatsApp");
+      prospect.replaceChildren(prompt,link);
+      return;
+    }
     const sessionId = "service-" + Array.from(crypto.getRandomValues(new Uint32Array(4))).join("-");
     const mode = endpoint ? t("AI məsləhətçiyə işiniz barədə sual verin.", "Задайте AI-консультанту вопрос о своей работе.") :
       t("Nümunə söhbət. Öz sualınızı yazın və ya aşağıdakı suallardan birini seçin.", "Демонстрационный диалог. Напишите свой вопрос или выберите один из вариантов.");
@@ -69,7 +79,7 @@
     const log = prospect.querySelector('[role="log"]');
     const choices = prospect.querySelector(".prospect-prompts");
     const field = form.querySelector("input");
-    let sector = "";
+
     let lastQuestion = "";
     let busy = false;
     function bubble(who, message) {
@@ -84,27 +94,7 @@
       log.scrollTop = log.scrollHeight;
       return copy;
     }
-    const scenes = [
-      [/kurs|təhsil|ders|dərs|müəllim|школ|курс|обуч|преподав/, t("Kursu seçən müştəri səviyyəsini və uyğun saatları yazır. Bot sizin proqram və cədvəlinizdən cavab verir, sınaq dərsi istəyən şəxsin müraciətini menecerə ötürür.", "Ученик пишет свой уровень и удобное время. Бот сверяется с вашей программой и расписанием, а запрос на пробное занятие передаёт менеджеру.")],
-      [/mağaza|magaza|sifariş|məhsul|магазин|заказ|товар/, t("Alıcı gecə ölçü və çatdırılma barədə soruşanda bot kataloqunuzdan cavab verir. Seçilən variantı və sifariş istəyini bir yerdə menecerə ötürür.", "Покупатель ночью спрашивает о размере и доставке. Бот отвечает по вашему каталогу и передаёт менеджеру выбранный вариант вместе с запросом на заказ.")],
-      [/klinika|klinik|həkim|salon|qəbul|клиник|врач|салон|приём|прием/, t("Bot xidmət və iş saatları barədə məlumat verir, müştəridən uyğun günü soruşur və qeydiyyat istəyini administratora ötürür. Qəbul vaxtını administrator təsdiqləyir.", "Бот расскажет об услуге и графике, уточнит удобный день и передаст запрос администратору. Время записи подтвердит администратор.")],
-      [/restoran|kafe|masa|ресторан|кафе|столик/, t("Bot menyu və ünvanla bağlı sualı cavablayır. Rezerv istəyən qonaqdan vaxtı və nəfər sayını alıb administratora göndərir.", "Бот отвечает о меню и адресе. Если гость хочет забронировать столик, он уточняет время и число гостей и отправляет запрос администратору.")]
-    ];
-    function localReply(question) {
-      const q = question.toLocaleLowerCase(ru ? "ru" : "az");
-      const scene = scenes.find(([pattern]) => pattern.test(q));
-      if (scene) sector = scene[1];
-      if (/qiymət|qiymet|neçəyə|neçəyə|цена|цену|стоим|сколько/.test(q)) {
-        return t("Aylıq xidmət haqqı ", "Чатбот стоит ") + cfg.prices.chatbot + t(" ₼-dir. Qurulum pulsuzdur. Əvvəl ən çox təkrarlanan suallarınızı seçək ki, hansı işi botun görəcəyi aydın olsun.", " ₼ в месяц. Настройка бесплатная. Начнём с самых частых вопросов, чтобы было понятно, какую работу возьмёт бот.");
-      }
-      if (/səhv|bilmir|bilməsə|боюсь|ошиб|не знает|знать|неправильн/.test(q)) return t("Qiymət, saat və şərtləri sizin təsdiqlədiyiniz materiallardan götürürük. Cavab bazada yoxdursa, bot sualı olduğu kimi menecerə ötürür. İşə salmazdan əvvəl bunu sizin suallarınızla yoxlayırıq.", "Цены, график и условия берём из согласованных материалов. Если ответа в базе нет, бот сохраняет вопрос и передаёт его менеджеру. До запуска проверяем этот сценарий на ваших вопросах.");
-      if (/quraşdır|qurulum|başlaya|inteqra|crm|sheets|подключ|настрой|интегра|запуск/.test(q)) return t("Tez-tez verilən sualları, düzgün cavabları və menecerə ötürmə qaydasını paylaşın. Instagram və ya WhatsApp üçün söhbəti qurub sizinlə sınaqdan keçiririk. Müraciətin düşəcəyi CRM və ya cədvəli əvvəlcədən seçirik.", "Передайте частые вопросы, верные ответы и условия передачи менеджеру. Мы настроим диалог для Instagram или WhatsApp и проверим вместе с вами. Заранее согласуем CRM или таблицу для заявок.");
-      if (scene) return scene[1] + " " + t("Sizin komandanıza daha çox hansı sual gəlir?", "Какой вопрос вашей команде задают чаще всего?");
-      if (/gecə|gece|axşam|ноч|вечер/.test(q)) return t("Gecə yazan müştəri səhəri gözləmədən iş saatını, qiyməti və sifariş qaydasını öyrənir. Menecer səhər söhbət tarixçəsini və əlaqə istəyini hazır görür.", "Клиент ночью сразу узнает график, цену и порядок заказа. Утром менеджер увидит переписку и запрос на связь.");
-      if (/niyə|lazım|fayda|зачем|почему|польз|нужен|нужно/.test(q)) return sector || t("Komandanız eyni qiyməti və iş saatını hər gün yenidən yazırsa, bot bu cavabları üzərinə götürə bilər. Müştəri sifarişə hazır olanda menecerə onun nə istədiyi artıq məlumdur. Siz mağaza, kurs, klinika, yoxsa başqa xidmət idarə edirsiniz?", "Если команда каждый день печатает одни и те же цены и часы работы, это можно поручить боту. Когда клиент готов заказать, менеджер уже знает его запрос. У вас магазин, курсы, клиника или другой бизнес?");
-      return t("Bu nümunədə gecə mesajlarını, qiyməti, sifarişi və menecerə ötürməni göstərə bilərəm. Müştərinin ən çox yazdığı sualı seçin və ya iş sahənizi deyin.", "В демо можно разобрать ночные сообщения, цены, заказ и передачу менеджеру. Выберите частый вопрос клиента или укажите сферу вашего бизнеса.");
-    }
-    bubble("Gajar Agency", t("Siz işdən çıxandan sonra müştərilər ən çox nə soruşurlar?", "Что чаще всего спрашивают клиенты после окончания вашего рабочего дня?"));
+    bubble("Gajar AI", t("Biznesiniz nə ilə məşğuldur? Bir müştərinin sizə yazdığı sualı göndərin, həmin söhbətdən başlayaq.", "Чем занимается ваш бизнес? Пришлите типичный вопрос клиента — начнём с него."));
     const prompts = [
       t("Chatbot mənə niyə lazımdır?", "Зачем мне чатбот?"),
       t("Mağazam var", "У меня магазин"),
@@ -142,12 +132,12 @@
       const controls = [...choices.children, form.querySelector("button")];
       controls.forEach(button => {button.disabled = true;});
       bubble(t("Siz", "Вы"), question);
-      const reply = bubble("Gajar Agency", t("Cavab hazırlanır…", "Готовим ответ…"));
+      const reply = bubble("Gajar AI", t("Cavab hazırlanır…", "Готовим ответ…"));
       field.value = "";
       try {
-        reply.textContent = endpoint ? await liveReply(question) : localReply(question);
+        reply.textContent = await liveReply(question);
       } catch {
-        reply.textContent = t("Canlı bağlantı alınmadı. Nümunə cavab. ", "Связь с консультантом прервалась. Ответ из демо. ") + localReply(question);
+        reply.textContent = t("Bağlantı alınmadı. Yenidən yazın və ya sualı WhatsApp-da göndərin.","Не удалось получить ответ. Повторите вопрос или отправьте его в WhatsApp.");
       } finally {
         busy = false;
         controls.forEach(button => {button.disabled = false;});

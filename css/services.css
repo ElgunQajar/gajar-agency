@@ -47,3 +47,7 @@
 .contact-form button {justify-self:start;background:var(--champagne);color:var(--dark)}
 .contact-jump {text-align:center}
 @media(max-width:650px){.founder,.contact-form {grid-template-columns:1fr}.founder img {max-width:340px}.service-hero h1 {font-size:clamp(26px,7vw,40px)}}
+
+.system-pair {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px;margin-block:24px}
+.system-pair article {background:var(--card);border:1px solid var(--gold);border-radius:22px;padding:clamp(18px,3vw,34px)}
+.system-pair h2 {font-size:clamp(20px,2.4vw,32px)}

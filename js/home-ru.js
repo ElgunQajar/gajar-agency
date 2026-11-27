@@ -28,7 +28,7 @@
   [
     "Услуги",
     "Какие услуги вы предлагаете?",
-    "Мы автоматизируем ответы клиентам, регистрацию заказов и отчёты. Для продвижения готовим контент и помогаем управлять рекламой в Meta Ads."
+    "У нас два основных направления. Система автоматизации обрабатывает обращения, заказы и отчёты. Система маркетинга объединяет контент-план, видео, дизайн, кампании Meta Ads и анализ входящих обращений."
   ],
   [
     "Чатбот",
@@ -53,7 +53,7 @@
   [
     "Отдельные услуги",
     "Можно заказать услуги отдельно?",
-    "Чатбот стоит 300 ₼ в месяц, ведение Meta Ads — 400 ₼. Контент доступен в пакетах."
+    "Чатбот стоит 300 ₼ в месяц, ведение Meta Ads — 300 ₼. Контент доступен в пакетах."
   ],
   [
     "Реклама",
@@ -106,79 +106,4 @@
   schedule();
 
   document.querySelectorAll(".track a").forEach(link => { link.innerHTML = icon(link.dataset.icon); });
-  const people = document.querySelector(".people");
-  const prev = document.querySelector("#prev");
-  const next = document.querySelector("#next");
-  function move(direction) {
-    const stride = people.children[1].offsetLeft - people.children[0].offsetLeft;
-    people.scrollBy({left: direction * stride, behavior: reduced.matches ? "instant" : "smooth"});
-  }
-  function updateArrows() {
-    prev.disabled = people.scrollLeft <= 1;
-    next.disabled = people.scrollLeft + people.clientWidth >= people.scrollWidth - 1;
-  }
-  prev.onclick = () => move(-1);
-  next.onclick = () => move(1);
-  people.onscroll = updateArrows;
-  new ResizeObserver(updateArrows).observe(people);
-
-  // Şəbəkə çipin mərkəzindən yayılır. Görünməyən hero animasiya işlətmir.
-  const hero = document.querySelector(".hero");
-  const canvas = hero.querySelector("canvas");
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-  let width, height, center, points;
-  let visible = true;
-  let frame = 0;
-  let pointer = {x:0, y:0};
-  function resize() {
-    const rect = canvas.getBoundingClientRect();
-    const chip = (hero.querySelector(".showreel") || hero.querySelector(".phone-demo")).getBoundingClientRect();
-    width = rect.width;
-    height = rect.height;
-    const scale = Math.min(devicePixelRatio, 2);
-    canvas.width = Math.round(width * scale);
-    canvas.height = Math.round(height * scale);
-    ctx.setTransform(scale,0,0,scale,0,0);
-    center = {x:chip.left + chip.width/2 - rect.left, y:chip.top + chip.height/2 - rect.top};
-    points = Array.from({length:Math.min(100,Math.ceil(width * height / 10000))}, () => ({
-      x:Math.random()*width,y:Math.random()*height,phase:Math.random()*6.28
-    }));
-    restart();
-  }
-  function draw(time) {
-    frame = 0;
-    const t = reduced.matches ? 0 : time / 10000;
-    ctx.clearRect(0,0,width,height);
-    const nodes = points.map(p => ({
-      x:p.x+Math.sin(t+p.phase)*9+pointer.x*Math.cos(p.phase),
-      y:p.y+Math.cos(t+p.phase)*9+pointer.y*Math.sin(p.phase)
-    }));
-    nodes.push(center);
-    nodes.forEach((a,i) => {
-      for (let j=i+1;j<nodes.length;j++) {
-        const b=nodes[j], distance=Math.hypot(a.x-b.x,a.y-b.y);
-        const reach=b===center ? 280 : 180;
-        if(distance>=reach) continue;
-        ctx.strokeStyle="rgba(87,135,222," + (1-distance/reach)*.44 + ")";
-        ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
-      }
-      ctx.fillStyle="#4f75bca8";ctx.beginPath();ctx.arc(a.x,a.y,1.7,0,Math.PI*2);ctx.fill();
-    });
-    if (!reduced.matches && visible && !document.hidden) frame=requestAnimationFrame(draw);
-  }
-  function restart() {
-    cancelAnimationFrame(frame);
-    if(visible && !document.hidden && points) draw(performance.now());
-  }
-  hero.onpointermove = e => {
-    if(reduced.matches) return;
-    const rect=hero.getBoundingClientRect();
-    pointer={x:((e.clientX-rect.left)/width-.5)*10,y:((e.clientY-rect.top)/height-.5)*10};
-  };
-  hero.onpointerleave = () => {pointer={x:0,y:0};};
-  new ResizeObserver(resize).observe(hero);
-  new IntersectionObserver(([entry]) => {visible=entry.isIntersecting;restart();}).observe(hero);
-  document.addEventListener("visibilitychange",restart);
-  reduced.addEventListener("change",restart);
 })();

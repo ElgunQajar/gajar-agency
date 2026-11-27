@@ -3,7 +3,7 @@ const page = document.body.dataset.page;
 const whatsapp = GajarConfig.whatsapp;
 const navItems = [
   ["index", "Главная"], ["paketler", "Пакеты"], ["xidmetler", "Услуги"],
-  ["elgun-gajar", "Об основателе"], ["keysler", "Кейсы"], ["faq", "FAQ"], ["bloq","Блог"], ["elaqe", "Контакты"]
+  ["keysler", "Кейсы"], ["faq", "FAQ"], ["bloq","Блог"], ["elaqe", "Контакты"]
 ];
 function pageLink([slug, label]) {
   const url = root + (slug === "index" ? "index.html" : "pages/" + slug + ".html");
@@ -52,7 +52,7 @@ document.querySelector("footer").innerHTML = `
 </div></div>
 <div class="champagne footer-bottom">${logo}<div><p>© 2026 Gajar Agency. Все права защищены.</p>
 <nav aria-label="Ссылки в подвале">${[navItems[1],["haqqimizda","Об агентстве"],["mexfilik","Конфиденциальность"]].map(pageLink).join("")}</nav></div>
-<a class="social" href="https://www.instagram.com/gajar.agency/" aria-label="Instagram Gajar Agency">${icon("instagram")}</a></div>`;
+<div class="footer-socials"><a class="social" href="https://www.instagram.com/gajar.agency/" aria-label="Instagram Gajar Agency">${icon("instagram")}</a><a class="social" href="${whatsapp}" aria-label="Gajar Agency WhatsApp">${icon("wa")}</a></div></div>`;
 
 const mapFrame = document.querySelector(".map iframe");
 function loadOfficeMap() {

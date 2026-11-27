@@ -61,8 +61,8 @@
     [cfg.rulesPage,t("Botu çətinə sal","Испытайте бота сложным вопросом"),t("Endirim istəyən və ya fikrini dəyişən müştəri üçün botun sərhədlərini siz müəyyən edin.","Решите, что может сделать бот, если клиент просит скидку или меняет заказ."),t("Qaydaları seç","Задать правила")],
   ].filter(([file])=>file);
   const businessTools=[
-    [cfg.workflowDemoPage,t("Avtomatlaşdırmanı iş başında görün","Посмотрите автоматизацию в работе"),t("Müraciət, sifariş və reklam qərarının addımlarını işə salın. Sistemin nəyi qeydə aldığını və harada təsdiq istədiyini görün.","Запустите сценарий заявки, заказа или решения по рекламе. Посмотрите, что система записывает и когда спрашивает согласование."),t("İş axınını sına","Запустить демо")],
-    [cfg.salesStudioPage,t("Avtomatik kontent studiyası","Автоматическая контент-студия"),t("Məhsul məlumatını daxil edin. Paylaşım mətni, video ssenarisi və müştəriyə cavab alın.","Добавьте сведения о продукте, чтобы получить пост, сценарий ролика и ответ клиенту."),t("Kontent hazırla","Подготовить контент")],
+    [cfg.workflowDemoPage,t("Avtomatlaşdırmanı iş başında görün","Посмотрите автоматизацию в работе"),t("Post, video, sifariş və reklam qərarının addımlarını sınayın. Sistemin nəyi qeydə aldığını və harada təsdiq istədiyini görün.","Попробуйте подготовить публикацию, обработать заказ или принять решение по рекламе. Посмотрите, что система записывает и когда спрашивает согласование."),t("İş axınını sına","Запустить демо")],
+    [cfg.salesStudioPage,t("Avtomatik kontent studiyası","Автоматическая контент-студия"),t("Brendinizi bir dəfə tanıdın. Post, video və reklam planını birlikdə hazırlayın.","Один раз заполните профиль бренда. Собирайте пост, сценарий и план рекламы по каждой теме."),t("Kontent hazırla","Подготовить контент")],
     ["meta-ads.html",t("Reklam büdcəsi hara gedir?","Куда уходит рекламный бюджет?"),t("Reklam botunun nəticələri necə müqayisə etdiyini və növbəti addımı necə seçdiyini sınayın.","Посмотрите, как бот сравнивает результаты рекламы и предлагает следующий шаг."),t("Analizi sına","Попробовать анализ")]
   ].filter(([file])=>file);
   const hubPath="ai-chatbot.html#bot-sinaqlari";

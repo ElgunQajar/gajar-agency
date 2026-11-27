@@ -6,7 +6,7 @@ window.GajarConfig = {
   simulatorPage:"biznes-sina.html", rulesPage:"botu-sina.html", salesStudioPage:"satis-yolu.html", workflowDemoPage:"is-axinlari.html",
   webhookUrl: "", demoBotWhatsapp: "", counterCsvUrl: "", lessonDate: "", referralReward: "", voiceDemoUrl: "audio/operator-demo.mp3",
   whatsapp: "https://wa.me/994997957905", phone: "tel:+994997957905", instagram: "https://www.instagram.com/gajar.agency/",
-  prices: {START:299, PRO:599, GAJAR:999, chatbot:300, ads:400}, budgetBands:[300,700],
+  prices: {START:299, PRO:599, GAJAR:999, chatbot:300, ads:300}, budgetBands:[300,700],
   servicePages:["ai-chatbot.html","kontent.html","meta-ads.html","marketinq-avtomatlasdirmasi.html","biznes-prosesleri.html","tezlikle.html#smm","tezlikle.html#crm","tezlikle.html#erp","tezlikle.html#sexsi-ai-assistent","tezlikle.html#sesli"],
   caseSeconds:2, months:12, dailyHours:24, shiftHours:8, publishDate:"2026-11-15",
   cases:[
@@ -14,7 +14,7 @@ window.GajarConfig = {
       name:"Gajar Academy", id:"gajar-academy", image:"img/cases/gajar-academy.jpg", monthlyMessages:"",
       sector:["Dil kursları","Языковые курсы"],
       preview:["Dil kursları haqqında suallardan menecerə bildirişədək.","От вопроса о языковом курсе до уведомления менеджеру."],
-      problem:["Instagram DM-də kurslar, qiymətlər və müəllimlər haqqında eyni suallar tez-tez təkrarlanırdı. Gecə yazanlar cavabsız qalırdı.","В Instagram Direct часто повторялись вопросы о курсах, ценах и преподавателях. Ночные сообщения оставались без ответа."],
+      problem:["Instagram DM-də kurslar, qiymətlər və müəllimlər haqqında eyni suallar tez-tez təkrarlanırdı. Gecə yazanlar cavabsız qalırdı. Şagirdi uyğun qrupa yönləndirmək üçün səviyyəsini, vaxtını və dərs formatını öyrənmək lazım idi. Bu detallar ayrı-ayrı yazışmalarda qalanda növbəti addımı izləmək çətinləşirdi.","В Instagram Direct часто повторялись вопросы о курсах, ценах и преподавателях. Ночные сообщения оставались без ответа. Для подбора группы нужно уточнить уровень, время и формат занятий. Когда эти детали остаются в отдельных переписках, следующий шаг труднее отследить."],
       solution:["Instagram DM üçün bot qurduq. Bot bütün kurslar, müəllimlər və qiymətlər haqqında sualları cavablandırır, səsli mesajları başa düşür, müraciəti Google Sheets-ə yazır və menecerə Telegram-da bildiriş göndərir.","Мы настроили бота для Instagram Direct. Он отвечает на вопросы обо всех курсах, преподавателях и ценах, понимает голосовые сообщения, записывает заявку в Google Sheets и уведомляет менеджера в Telegram."],
       resultNote:["",""]
     },
@@ -33,15 +33,53 @@ window.GajarConfig = {
   qrLibrary:"https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
 };
 (() => {
-  const media = matchMedia("(prefers-color-scheme: dark)");
-  let preference;
-  try { preference = localStorage.getItem("gajar-theme"); } catch {}
-  const apply = () => document.documentElement.dataset.theme = preference || "light";
+  // Solar elevation for Baku. UTC also works for visitors in another time zone.
+  const rad = Math.PI / 180;
+  function bakuTheme(now) {
+    const year = now.getUTCFullYear();
+    const day = (Date.UTC(year, now.getUTCMonth(), now.getUTCDate()) - Date.UTC(year, 0, 1)) / 86400000;
+    const minutes = now.getUTCHours() * 60 + now.getUTCMinutes();
+    const yearDays = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
+    const phase = 2 * Math.PI / yearDays * (day + minutes / 1440 - 0.5);
+    const c = Math.cos, s = Math.sin;
+    const eq = 229.18 * (0.000075 + 0.001868*c(phase) - 0.032077*s(phase) - 0.014615*c(2*phase) - 0.040849*s(2*phase));
+    const dec = 0.006918 - 0.399912*c(phase) + 0.070257*s(phase) - 0.006758*c(2*phase) + 0.000907*s(2*phase) - 0.002697*c(3*phase) + 0.00148*s(3*phase);
+    const hourAngle = ((minutes + eq + 4*49.87) / 4 - 180) * rad;
+    const altitude = s(40.41*rad)*s(dec) + c(40.41*rad)*c(dec)*c(hourAngle);
+    return altitude >= s(-0.833*rad) ? "light" : "dark";
+  }
+  const key = "gajar-theme-override";
+  let choice = null;
+  function restore() {
+    try { choice = JSON.parse(localStorage.getItem(key)); } catch { choice = null; }
+  }
+  function apply() {
+    const now = new Date();
+    const solar = bakuTheme(now);
+    if (choice && (choice.solar !== solar || now.getTime() >= choice.until)) {
+      choice = null;
+      try { localStorage.removeItem(key); } catch {}
+    }
+    document.documentElement.dataset.themeMode = choice ? "manual" : "auto";
+    document.documentElement.dataset.theme = choice?.theme || solar;
+    document.dispatchEvent(new Event("gajar-theme-change"));
+  }
+  restore();
   apply();
-  media.addEventListener("change",apply);
+  setInterval(apply, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) apply(); });
+  window.addEventListener("storage", event => {
+    if (event.key === key || event.key === null) { restore(); apply(); }
+  });
   window.toggleTheme = () => {
-    preference = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    try { localStorage.setItem("gajar-theme",preference); } catch {}
+    const now = new Date();
+    const solar = bakuTheme(now);
+    const theme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    choice = theme === solar ? null : { theme, solar, until: now.getTime() + 86400000 };
+    try {
+      if (choice) localStorage.setItem(key, JSON.stringify(choice));
+      else localStorage.removeItem(key);
+    } catch {}
     apply();
   };
 })();
@@ -50,4 +88,9 @@ window.GajarConfig = {
 window.GajarConfig.academyMessageAudio = {
   az: "audio/academy-message-az.wav",
   ru: "audio/academy-message-ru.wav"
+};
+
+window.GajarConfig.caseVoiceMessages = {
+  academy: { az: "audio/academy-dm-az.mp3", ru: "audio/academy-dm-ru.mp3" },
+  bio: { az: "audio/bio-dm-az.mp3", ru: "audio/bio-dm-ru.mp3" }
 };

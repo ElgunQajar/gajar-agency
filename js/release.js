@@ -23,7 +23,19 @@
   options.className="preferences";
   options.innerHTML='<button class="theme-toggle" aria-label="'+t("Rəng rejimini dəyiş","Сменить тему")+'"></button><a hreflang="'+(ru?"az":"ru")+'" href="'+document.body.dataset.other+'">'+(ru?"AZ | <b>RU</b>":"<b>AZ</b> | RU")+'</a>';
   header.insertBefore(options,header.querySelector(".menu-toggle"));
-  options.querySelector("button").onclick=window.toggleTheme;
+  const themeButton=options.querySelector("button");
+  function labelTheme(){
+    const light = document.documentElement.dataset.theme === "light";
+    const shape = light
+      ? '<path d="M20.8 13.3A8.6 8.6 0 0 1 10.7 3.2a8.8 8.8 0 1 0 10.1 10.1Z"/>'
+      : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>';
+    themeButton.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">'+shape+'</svg>';
+    themeButton.title = light ? t("Gecə rejiminə keç","Перейти на тёмную тему") : t("Gündüz rejiminə keç","Перейти на светлую тему");
+    themeButton.setAttribute("aria-label", themeButton.title);
+  }
+  labelTheme();
+  document.addEventListener("gajar-theme-change", labelTheme);
+  themeButton.onclick=window.toggleTheme;
 
   new IntersectionObserver(([entry])=>{
     document.querySelector("#assistant").hidden=entry.isIntersecting;
@@ -78,7 +90,8 @@
   const fan=document.querySelector(".fan");
   if(fan){
     const mobile=document.createElement("div");mobile.className="mobile-services";
-    mobile.innerHTML=catalog.map((r,i)=>'<details><summary><i aria-hidden="true">'+["✦","◈","◎","⇄","◇","✧","▤","▧","✦","◉"][i]+'</i><span><b>'+r[index]+'</b><small>'+(i>=5?t("Tezliklə · ","Скоро · "):"")+r[2+index]+'</small></span></summary>'+expl(r)+link(rel+"pages/"+routeList[i],t("Daha ətraflı","Подробнее"))+'</details>').join("");
+    mobile.setAttribute("aria-label",t("Xidmət kartları","Карточки услуг"));
+    mobile.innerHTML=catalog.map((r,i)=>'<article><h3>'+r[index]+'</h3><p><strong>'+r[2+index]+'</strong></p><p>'+r[4+index]+'</p>'+link(rel+"pages/"+routeList[i],t("Ətraflı bax","Подробнее"))+'</article>').join("");
     fan.after(mobile);
   }
   if(slug==="xidmetler"){const old=main.querySelector(".chain");if(old)old.remove();const s=group(t("Xidmət nəyi həll edir?","Какие задачи решают услуги?"),catalog.map(r=>'<details><summary>'+r[index]+'</summary>'+expl(r)+'</details>').join(""));main.querySelector("header")?.after(s);}
@@ -167,4 +180,63 @@
     group(t("İşçi və AI chatbot","Оператор и AI-чатбот"),'<div class="vs">'+rows.map(([a,b,c])=>'<article><h3>'+a+'</h3><p>'+t("İşçi","Оператор")+': '+b+'</p><p>AI: '+c+'</p></article>').join("")+'</div>');
   }
   document.querySelectorAll('a[href^="https://wa.me/"],a[href^="https://www.instagram.com/"]').forEach(a=>a.rel="noopener");
+})();
+// One viewport-sized network for every page, including both language versions.
+(() => {
+  const canvas = document.createElement("canvas");
+  canvas.className = "site-network";
+  canvas.setAttribute("aria-hidden", "true");
+  document.body.prepend(canvas);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+  let points = [], width = 0, height = 0, frame, lastPaint = -100;
+  let pointerX = 0, pointerY = 0;
+  function paint(time) {
+    const t = reduced.matches ? 0 : time / 10000;
+    ctx.clearRect(0, 0, width, height);
+    const nodes = points.map(({x,y,phase}) => ({
+      x:x + Math.sin(t + phase)*8 + pointerX*Math.cos(phase),
+      y:y + Math.cos(t + phase)*8 + pointerY*Math.sin(phase)
+    }));
+    const reach = Math.min(190, width * .34);
+    nodes.forEach((a,i) => {
+      for (let j=i+1; j<nodes.length; j++) {
+        const b=nodes[j], distance=Math.hypot(a.x-b.x,a.y-b.y);
+        if (distance >= reach) continue;
+        ctx.strokeStyle="rgba(64,101,217," + (.40*(1-distance/reach)) + ")";
+        ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+      }
+      ctx.fillStyle="#4568D299";
+      ctx.beginPath(); ctx.arc(a.x,a.y,1.6,0,2*Math.PI); ctx.fill();
+    });
+  }
+  function tick(time) {
+    if (time-lastPaint >= 40) { paint(time); lastPaint=time; }
+    frame=requestAnimationFrame(tick);
+  }
+  function restart() {
+    cancelAnimationFrame(frame);
+    if (document.hidden) return;
+    paint(performance.now());
+    if (!reduced.matches) frame=requestAnimationFrame(tick);
+  }
+  function resize() {
+    width=canvas.clientWidth; height=canvas.clientHeight;
+    const scale=Math.min(devicePixelRatio || 1, 2);
+    canvas.width=Math.round(width*scale); canvas.height=Math.round(height*scale);
+    ctx.setTransform(scale,0,0,scale,0,0);
+    points=Array.from({length:Math.min(145,Math.ceil(width*height/9400))}, () => ({
+      x:Math.random()*width, y:Math.random()*height, phase:Math.random()*Math.PI*2
+    }));
+    restart();
+  }
+  window.addEventListener("pointermove", e => {
+    if (reduced.matches || e.pointerType !== "mouse") return;
+    pointerX=(e.clientX/width-.5)*8; pointerY=(e.clientY/height-.5)*8;
+  }, {passive:true});
+  document.addEventListener("visibilitychange", restart);
+  reduced.addEventListener("change", restart);
+  new ResizeObserver(resize).observe(canvas);
+  resize();
 })();

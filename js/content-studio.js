@@ -1,145 +1,87 @@
 (() => {
-  "use strict";
   const root = document.querySelector("#sales-studio");
   if (!root) return;
-  const lang = document.documentElement.lang;
-  const t = (az, ru) => lang === "ru" ? ru : az;
-  const form = root.querySelector("form");
-  const brief = form.elements.brief;
-  const file = form.elements.source;
-  const notice = root.querySelector("[data-notice]");
-  const result = root.querySelector("[data-result]");
-  const send = form.querySelector("[type=submit]");
-  const url = window.GajarConfig?.contentWebhookUrl?.trim();
-  const limit = brief.maxLength;
-  const headings = [
-    t("Instagram paylaşımı", "Пост для Instagram"),
-    t("Reels ssenarisi", "Сценарий Reels"),
-    t("Direct üçün cavab", "Ответ в Direct")
+  const lang = document.documentElement.lang, ru = lang === "ru";
+  const t = (az, rus) => ru ? rus : az;
+  const cfg = window.GajarConfig, storageKey = "gajar-brand-profile-" + lang;
+  const groups = [
+    [t("Biznes", "Бизнес"), [
+      ["brand",t("Biznesinizin adı","Название бизнеса"),t("Brend adı","Название бренда")],
+      ["offer",t("Müştəri sizdən nə alır?","Что клиент у вас покупает?"),t("Əsas xidmət, qiymət və təklifə daxil olanlar","Основная услуга, цена и что входит")],
+      ["proof",t("Hansı faktları istifadə edə bilərik?","На какие факты можно опираться?"),t("Təsdiqli şərtlər, nümunələr və məhdudiyyətlər","Условия, примеры и ограничения")]]],
+    [t("Müştəri","Клиент"),[
+      ["audience",t("Təklif kimə uyğundur?","Кому подходит предложение?"),t("Müştəri hansı vəziyyətdə sizə yazır?","В какой ситуации вам пишет клиент?")],
+      ["question",t("Qərar verməzdən əvvəl nə soruşur?","О чём спрашивают перед решением?"),t("Müştərinin öz sözləri ilə bir sual","Вопрос словами покупателя")],
+      ["objection",t("Onu nə tərəddüdə salır?","Что мешает принять решение?"),t("Qiymət, vaxt, seçim və ya başqa səbəb","Цена, сроки, выбор или другая причина")]]],
+    [t("Brend qaydaları","Правила бренда"),[
+      ["tone",t("Müştəri ilə hansı tonda danışırsınız?","Каким тоном вы общаетесь?"),t("Məsələn, qısa və səmimi","Например, кратко и дружелюбно")],
+      ["visual",t("Vizual üslubunuz necədir?","Как выглядит ваш бренд?"),t("Rənglər, çəkiliş tərzi, nümunə linki","Цвета, стиль съёмки, ссылка на пример")],
+      ["avoid",t("Nəyi demək və göstərmək olmaz?","Чего обещать или показывать нельзя?"),t("Qadağan sözlər, təsdiq tələb edən iddialar","Запрещённые слова и заявления, требующие проверки")]]]
   ];
-  const targets = {
-    consult: [t("Nə axtardığınızı mesajda yazın, uyğun variantı birlikdə seçək.", "Напишите, что вы ищете, и мы поможем подобрать вариант."), t("Seçim edərkən sizin üçün nə vacibdir?", "Что для вас важнее всего при выборе?")],
-    order: [t("Sifariş üçün məhsulun adını və istədiyiniz sayı mesajda yazın.", "Для заказа напишите нам название и количество."), t("Sizin üçün neçə ədəd qeyd edək?", "Сколько штук вы хотите заказать?")],
-    book: [t("Qeydiyyat üçün sizə uyğun günü mesajda yazın.", "Чтобы записаться, напишите, какой день вам подойдёт."), t("Hansı gün sizə uyğundur? Mümkün vaxtı dəqiqləşdirək.", "Какой день вам удобен? Уточним доступное время.")]
-  };
-  const example = t(
-    "Keramika fincan emalatxanası\nİlk dəfə gil ilə işləyənlər üçün açıq dərs.\nƏvvəlcə fincanınızı formaya salır, sonra üzərinə naxış çəkirsiniz.\nGil, boyalar və bişirmə dərsə daxildir.\nBişmiş fincanı emalatxanadan götürürsünüz.",
-    "Мастерская керамических кружек\nОткрытое занятие для тех, кто впервые работает с глиной.\nСначала вы придаёте кружке форму, затем наносите рисунок.\nГлина, краски и обжиг входят в занятие.\nГотовую кружку можно забрать в мастерской."
-  );
-
-  let revision = 0;
-  let exported = "";
-  let controller;
-  function invalidate() {
-    revision++;
-    controller?.abort();
-    send.disabled = false;
-    notice.textContent = "";
-    result.hidden = true;
-    brief.setCustomValidity("");
-  }
-  brief.addEventListener("input", invalidate);
-  form.elements.goal.addEventListener("change", invalidate);
-  root.querySelector("[data-example]").onclick = () => {
-    invalidate();
-    brief.value = example;
-    form.elements.goal.value = "book";
-    file.value = "";
-    brief.focus();
-  };
-  file.addEventListener("change", async () => {
-    invalidate();
-    const version = revision;
-    const selected = file.files[0];
-    if (!selected) return;
-    try {
-      if (!/\.txt$/i.test(selected.name) || selected.size > limit * 4) throw Error();
-      const decoded = new TextDecoder("utf-8", {fatal:true}).decode(await selected.arrayBuffer()).trim();
-      if (!decoded || decoded.includes("\0") || decoded.length > limit) throw Error();
-      if (revision !== version) return;
-      brief.value = decoded;
-      notice.textContent = t("Fayl oxundu. Mətni aşağıda yoxlaya bilərsiniz.", "Файл прочитан. Вы можете проверить текст ниже.");
-    } catch {
-      if (revision === version) notice.textContent = t("Faylı oxumaq mümkün olmadı. UTF-8 formatında, ən çox 6000 işarəlik TXT faylı seçin.", "Не удалось прочитать файл. Выберите TXT в кодировке UTF-8 длиной до 6000 знаков.");
+  const form = root.querySelector("form"), result=root.querySelector("[data-result]");
+  const fields = new Map(), required=new Set(["brand","offer","audience","question"]);
+  function node(tag,text,cls) {const el=document.createElement(tag);if(text)el.textContent=text;if(cls)el.className=cls;return el;}
+  const panels=groups.map(([name,items],i)=>{
+    const pane=node("fieldset");pane.append(node("legend",(i+1)+". "+name));
+    for(const [id,label,hint] of items){
+      const box=node("label",label+(required.has(id)?" *":"")),field=node("textarea");field.rows=2;field.maxLength=1200;field.placeholder=hint;field.name=id;field.required=required.has(id);
+      box.append(field);pane.append(box);fields.set(id,field);
     }
+    return pane;
   });
-
-  function localKit(name, details, goal) {
-    const facts = details.split(/\n+|(?<=[.!?])\s+(?=[A-ZА-ЯƏÇÖÜŞĞİЁ])/u)
-      .map(item => item.trim().replace(/^[-•]+\s*/, "")).filter(Boolean);
-    const matches = pattern => facts.find(fact => pattern.test(fact));
-    const costing = matches(/₼|\bAZN\b|qiymət|manat|стои(т|мость)|манат|цен[ауые]/iu);
-    const includes = matches(/daxildir|daxil olan|komplekt|входит|включ|комплект/iu);
-    const timing = matches(/saat|həftə|gün|müddət|расписани|недел|час|дн[яеи]|день/iu);
-    const process = matches(/əvvəl|sonra|hazırl|formaya|сначала|затем|изгот|делае/iu);
-    const action = targets[goal];
-    const sentence = text => /[.!?…]$/u.test(text) ? text : text + ".";
-    const detail = includes || costing || timing || facts[0];
-    const ask = includes ? t("Təklifə nələr daxildir?", "Что входит в предложение?") :
-      costing ? t("Qiymət nə qədərdir?", "Сколько это стоит?") :
-      timing ? t("Vaxt barədə məlumat verərdiniz?", "Подскажите по срокам?") :
-      t("Ətraflı məlumat verə bilərsiniz?", "Расскажете подробнее?");
-    const post = [name, facts.slice(0, 5).map(sentence).join(" "), action[0]].join("\n\n");
-    const shot = process || facts.find(fact => fact !== detail) || detail;
-    const reel = [
-      t("Açılış kadrı", "Первый кадр") + " — " + t("Başlığı ekrana çıxarın: ", "Заголовок на экране: ") + name + ". " + t("Səsləndirmə: ", "Голос за кадром: ") + ask,
-      t("Əsas kadr", "Основной кадр") + " — " + t("Bu detalı göstərin: ", "Покажите эту деталь: ") + sentence(shot),
-      t("Son kadr", "Последний кадр") + " — " + (detail !== shot ? sentence(detail) + " " : "") + action[0]
-    ].join("\n\n");
-    const reply = t("Müştəri", "Клиент") + " — «" + name + "». " + ask + "\n\n" +
-      t("Bot — Salam! ", "Бот — Здравствуйте! ") + sentence(detail) + " " + action[1];
-    return {post,reel,reply};
-  }
-
-  function render(kit, name) {
-    const values = [kit.post, kit.reel, kit.reply];
-    result.querySelectorAll("[data-copy]").forEach((el, index) => { el.textContent = values[index]; });
-    exported = [name, ...values.map((value, index) => headings[index] + "\n" + value)].join("\n\n");
-    result.hidden = false;
-    result.querySelector("h2").focus();
-  }
-  form.addEventListener("submit", async event => {
-    event.preventDefault();
-    const [name, ...lines] = brief.value.trim().split(/\r?\n/);
-    const details = lines.join("\n").trim();
-    if (!name || !/[\p{L}\p{N}]/u.test(details)) {
-      brief.setCustomValidity(t("Birinci sətirdə adı, növbəti sətirdə ən azı bir detalı yazın.", "На первой строке укажите название, на следующей — хотя бы одну деталь."));
-      brief.reportValidity();
-      return;
+  const campaign=node("fieldset");campaign.append(node("legend","4. "+t("Kampaniya","Кампания")));
+  function select(label,name,options){const box=node("label",label),el=node("select");el.name=name;options.forEach(([id,txt])=>el.add(new Option(txt,id)));box.append(el);campaign.append(box);return el;}
+  const goal=select(t("Bu paylaşımın məqsədi nədir?","Цель публикации"),"goal",[["consult",t("Məsləhət üçün müraciət","Запрос на консультацию")],["order",t("Sifariş","Заказ")],["book",t("Qeydiyyat","Запись")]]);
+  const mode=select(t("İstehsalı kim aparsın?","Кто ведёт производство?"),"mode",[["automate",t("Sistemi bizim komandaya qurun","Настроить систему для моей команды")],["agency",t("Materialları Gajar komandası hazırlasın","Поручить производство команде Gajar")]]);
+  const topic=node("textarea");topic.required=true;topic.rows=2;topic.maxLength=1200;const topicLabel=node("label",t("Bu dəfə hansı mövzunu işləyək? *","Тема этой кампании *"));topicLabel.append(topic);campaign.append(topicLabel);
+  panels.push(campaign);
+  const progress=node("p"), controls=node("div","","studio-actions"), back=node("button",t("Geri","Назад"),"cta"),next=node("button",t("Davam et","Далее"),"cta gold");
+  back.type="button";next.type="submit";controls.append(back,next);
+  const remember=node("input");remember.type="checkbox";const rememberLabel=node("label","","remember-brand");rememberLabel.append(remember,document.createTextNode(t("Brend profilini bu cihazda saxla","Сохранить профиль бренда на этом устройстве")));
+  const status=node("p");status.setAttribute("role","status");const clear=node("button",t("Saxlanmış profili sil","Удалить сохранённый профиль"),"studio-secondary");clear.type="button";clear.hidden=true;
+  const forget=()=>{try{localStorage.removeItem(storageKey)}catch{} clear.hidden=true;};clear.onclick=()=>{forget();remember.checked=false;status.textContent=t("Bu cihazdakı yaddaş silindi.","Сохранённая копия удалена.");};
+  remember.onchange=()=>{if(!remember.checked)forget()};
+  try{const saved=JSON.parse(localStorage.getItem(storageKey)||"null");if(saved){for(const [id,field] of fields)field.value=typeof saved[id]==="string"?saved[id]:"";remember.checked=true;clear.hidden=false}}catch{}
+  form.replaceChildren(progress,...panels,rememberLabel,clear,controls,status);
+  form.noValidate=true;
+  let step=0, busy=false;
+  function show(focus=false){panels.forEach((p,i)=>p.hidden=i!==step);back.hidden=!step;progress.textContent=(step+1)+" / "+panels.length;next.textContent=step===3?t("Kampaniya planını hazırla","Собрать план кампании"):t("Davam et","Далее");if(focus)panels[step].querySelector("textarea,select").focus();}
+  back.onclick=()=>{if(step){step--;show(true)}};show();
+  result.setAttribute("aria-live","polite");
+  form.oninput=()=>{result.hidden=true;status.textContent=""};
+  form.onsubmit=async event=>{
+    event.preventDefault();if(busy)return;
+    for(const field of panels[step].querySelectorAll("textarea")){if(field.required&&!field.value.trim()){field.setCustomValidity(t("Bu sahəni doldurun.","Заполните это поле."));field.reportValidity();field.oninput=()=>field.setCustomValidity("");return}}
+    if(step<3){step++;show(true);return}
+    const profile=Object.fromEntries([...fields].map(([k,v])=>[k,v.value.trim()]));
+    if(remember.checked){try{localStorage.setItem(storageKey,JSON.stringify(profile));clear.hidden=false}catch{}}
+    const cta=goal.selectedOptions[0].textContent,subject=topic.value.trim(), service=mode.selectedOptions[0].textContent;
+    const plan=[
+      [t("Paylaşım mətni","Текст поста"),profile.question+"\n\n"+profile.offer+(profile.proof?"\n"+profile.proof:"")+"\n\n"+t("Ətraflı danışmaq üçün bizə yazın.","Напишите нам, чтобы обсудить детали.")],
+      [t("Şəkil və karusel","Визуал и карусель"),t("İlk slayd","Первый слайд")+" — "+subject+"\n"+t("İkinci slayd","Второй слайд")+" — "+profile.question+"\n"+t("Son slayd","Последний слайд")+" — "+cta+(profile.visual?"\n"+profile.visual:"")],
+      [t("Video ssenarisi","Сценарий видео"),t("Açılış","Начало")+" — "+profile.question+"\n"+t("Nümayiş","Демонстрация")+" — "+(profile.proof||profile.offer)+"\n"+t("Son kadr","Финал")+" — "+subject+" · "+cta],
+      [t("Meta Ads tapşırığı","Задание для Meta Ads"),[subject,profile.audience,profile.objection,cta].filter(Boolean).join("\n")],
+      [t("Yayım və məsuliyyət","Публикация и ответственность"),service+"\n"+t("Redaktor faktları və vizualı yoxlayır. Təsdiq etdiyiniz material təqvimə düşür. Sonra reklamdan gələn müraciət CRM-də kampaniya ilə əlaqələndirilir.","Редактор сверяет факты и визуал. Согласованный материал попадает в календарь. Обращение из рекламы связывается с кампанией в CRM.")]];
+    let title=t("Brifiniz üzrə ilkin istehsal planı","Предварительный план по вашему брифу");
+    if(cfg.contentWebhookUrl){
+      busy=true;form.inert=true;status.textContent=t("Brend profiliniz əsasında hazırlanır…","Готовим по профилю бренда…");
+      const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),55000);
+      try{
+        const res=await fetch(cfg.contentWebhookUrl,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"content-studio",lang,offer:profile.offer,brief:Object.values(profile).join("\n"),brandProfile:profile,topic:subject,goal:goal.value,delivery:mode.value}),signal:controller.signal});
+        if(!res.ok)throw Error();const kit=await res.json();
+        if(![kit.post,kit.reel].every(v=>typeof v==="string"&&v.trim()))throw Error();
+        plan[0][1]=kit.post;plan[2][1]=kit.reel;
+        if(typeof kit.visual==="string")plan[1][1]=kit.visual;if(typeof kit.ads==="string")plan[3][1]=kit.ads;
+        title=t("Kampaniyanızın ilk variantı","Первый вариант кампании");status.textContent="";
+      }catch{status.textContent=t("Studiyadan cavab gəlmədi. Aşağıda yerli brif planını görə bilərsiniz.","Студия не ответила. Ниже доступен локальный план по брифу.")}
+      finally{clearTimeout(timer);busy=false;form.inert=false}
     }
-    invalidate();
-    const goal = form.elements.goal.value;
-    const version = revision;
-    let kit = localKit(name, details, goal);
-    if (url) {
-      send.disabled = true;
-      notice.textContent = t("Kontent hazırlanır…", "Готовим контент…");
-      controller = new AbortController();
-      const request = controller;
-      const timeout = setTimeout(() => request.abort(), 20000);
-      try {
-        const response = await fetch(url, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({type:"content-studio", lang, offer:name, brief:details, goal}), signal:request.signal});
-        if (!response.ok) throw Error();
-        const data = await response.json();
-        if (![data.post,data.reel,data.reply].every(text => typeof text === "string" && text.trim())) throw Error();
-        kit = data;
-        if (version === revision) notice.textContent = t("Kontent hazırdır.", "Контент готов.");
-      } catch {
-        if (version === revision) notice.textContent = t("Kontent xidmətindən cavab gəlmədi. Aşağıda brifinizdən brauzerdə hazırlanan nümunə var.", "Сервис не ответил. Ниже — пример, собранный из вашего брифа в браузере.");
-      } finally {
-        clearTimeout(timeout);
-        if (version === revision) send.disabled = false;
-      }
-    }
-    if (version === revision) render(kit, name);
-  });
-  root.querySelector("[data-export]").onclick = () => {
-    const link = document.createElement("a");
-    const objectUrl = URL.createObjectURL(new Blob(["\uFEFF",exported], {type:"text/plain;charset=utf-8"}));
-    link.href = objectUrl;
-    link.download = "gajar-kontent-" + lang + ".txt";
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+    const heading=node("h2",title);heading.tabIndex=-1;const cards=node("div","","content-kit");
+    plan.forEach(([name,text])=>{const card=node("article");card.append(node("h3",name),node("p",text));cards.append(card)});
+    const request=node("a",t("Bu brifi Gajar ilə müzakirə et","Обсудить этот бриф с Gajar"),"cta gold");
+    request.href=cfg.whatsapp+"?text="+encodeURIComponent([profile.brand,subject,service,cta].join("\n"));
+    const download=node("button",t("Brifi və planı yüklə","Скачать бриф и план"),"cta");
+    download.type="button";download.onclick=()=>{const a=node("a");a.download="gajar-"+lang+".txt";const txt=[...groups.flatMap(([,items])=>items.map(([id,name])=>name+" — "+profile[id])),...plan.map(v=>v.join("\n"))].join("\n\n");const url=URL.createObjectURL(new Blob([txt],{type:"text/plain;charset=utf-8"}));a.href=url;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500)};
+    const actions=node("div","","studio-actions");actions.append(download,request);result.replaceChildren(heading,cards,actions);result.hidden=false;heading.focus();
   };
-  if (url) root.querySelector("[data-mode]").textContent = t("Hazırlama düyməsinə basanda brifiniz qoşulmuş kontent xidmətinə göndəriləcək.", "При нажатии кнопки ваш бриф будет отправлен в подключённый сервис генерации.");
 })();
