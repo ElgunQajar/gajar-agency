@@ -76,7 +76,7 @@
     const log=phone.querySelector(".messages"),typing=phone.querySelector("small");
     const motion=matchMedia("(prefers-reduced-motion: reduce)");let timer;
     function add(i){const p=document.createElement("p");p.className=i%2?"bot-bubble":"user-bubble";p.textContent=lines[i];log.append(p);log.scrollTop=log.scrollHeight;}
-    function cycle(i=0){if(i===0)log.replaceChildren();typing.textContent=i%2?t("Bot yazır…","Бот печатает…"):t("Müştəri yazır…","Клиент печатает…");typing.hidden=false;timer=setTimeout(()=>{add(i);typing.hidden=true;timer=setTimeout(()=>cycle((i+1)%lines.length),i===lines.length-1?4500:350);},900);}
+    function cycle(i=0){if(i===0){log.replaceChildren();add(0);add(1);i=2;}typing.textContent=i%2?t("Bot yazır…","Бот печатает…"):t("Müştəri yazır…","Клиент печатает…");typing.hidden=false;timer=setTimeout(()=>{add(i);typing.hidden=true;timer=setTimeout(()=>cycle((i+1)%lines.length),i===lines.length-1?4500:350);},900);}
     function start(){clearTimeout(timer);log.replaceChildren();if(motion.matches){lines.forEach((_,i)=>add(i));typing.hidden=true;}else cycle();}
     motion.addEventListener("change",start);start();
   }
@@ -114,12 +114,15 @@
   async function available(src){try {const r=await fetch(src,{method:"HEAD"});if(!r.ok||r.headers.get("content-type")?.includes("text/html"))return false; const size=r.headers.get("content-length");if(size!==null)return Number(size)>0;const sample=await fetch(src,{headers:{Range:"bytes=0-0"}});const reader=sample.body.getReader();try{return sample.ok&&!(await reader.read()).done;}finally{await reader.cancel();}} catch{return false;}}
   if(home){
     const works=group(t("İşlərimiz","Наши работы"),'<div class="video-grid"></div>');works.hidden=true;
+    works.insertAdjacentHTML("beforeend", link(cfg.instagram,t("Daha çoxu Instagram-da","Больше работ в Instagram")));
+    main.querySelector(".promo").after(works);
 
     if(location.protocol!=="file:")Promise.all(cfg.videos.map(async(v,i)=>{if(!await available(assets+v.src))return;const video=document.createElement("video");video.controls=true;video.preload="none";video.playsInline=true;video.src=assets+v.src;video.setAttribute("aria-label",t("Video işi ","Видеоработа ")+(i+1));if(await available(assets+v.poster))video.poster=assets+v.poster;works.querySelector("div").append(video);works.hidden=false;}));
     const cards=cfg.cases.map(item=>{
       return '<a class="case-card" href="'+rel+'pages/keysler.html#'+item.id+'"><h3>'+item.name+'</h3><p>'+item.preview[index]+'</p><span>'+t("Keysə bax →","Посмотреть кейс →")+'</span></a>';
     });
-    group(t("Keyslər","Кейсы"),'<div class="case-grid">'+cards.join("")+'</div>');
+    const cases=group(t("Keyslər","Кейсы"),'<div class="case-grid">'+cards.join("")+'</div>');
+    works.after(cases);
   }
   if(slug==="keysler"){
     cfg.cases.forEach(c=>{
@@ -146,6 +149,7 @@
   if(home){
     const s=group(t("Biznesinizə pulsuz AI audit","Бесплатный AI-аудит вашего бизнеса"),"");
     s.classList.add("audit-card");
+    s.id="audit";
     const intro=document.createElement("div");
     intro.append(s.querySelector("h2"));
     intro.insertAdjacentHTML("beforeend","<p>"+t("Hansı işləri avtomatlaşdıra biləcəyinizi birlikdə müəyyən edək. Biznes sahənizi qeyd edib müraciətinizi WhatsApp ilə göndərin.","Разберём, какие задачи можно автоматизировать в вашем бизнесе. Укажите сферу деятельности и отправьте заявку в WhatsApp.")+"</p>"+link(cfg.phone,t("Zəng et","Позвонить")));

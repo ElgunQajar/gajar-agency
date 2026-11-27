@@ -46,25 +46,10 @@ const contacts = [
 document.querySelector("footer").innerHTML = `
 <div class="champagne footer-top"><div class="footer-grid">
 <section><h2>Ünvan</h2><address>${address}</address><small>28 May metrosunun yaxınlığı</small>
-<p>B.e.–Cümə 10:00–19:00<br>Şənbə, bazar: qeyri-iş günü.</p><a class="dark-btn" href="${route}" target="_blank" rel="noopener">Marşrut qur <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path transform="rotate(-45 12 12)" d="M4 12h15m-6-6 6 6-6 6"/></svg></a></section>
+<p>B.e.–Cümə 11:00–20:00<br>Şənbə, bazar: qeyri-iş günü.</p><a class="dark-btn" href="${route}" target="_blank" rel="noopener">Marşrut qur <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path transform="rotate(-45 12 12)" d="M4 12h15m-6-6 6 6-6 6"/></svg></a></section>
 <section><h2>Əlaqə</h2>${contacts.filter(row=>row[1]).map(([label,value,url,symbol]) => `<a class="contact-row" href="${url}"><span><small>${label}</small>${value}</span><i>${icon(symbol)}</i></a>`).join("")}</section>
-<section class="map"><h2>Ofisimiz xəritədə</h2><iframe title="Jalə Plaza, Bakı — Google xəritəsi" data-src="https://maps.google.com/maps?q=${destination}&amp;z=16&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe></section>
+<section class="map"><h2>Ofisimiz xəritədə</h2><iframe title="Jalə Plaza, Bakı — Google xəritəsi" loading="lazy" src="https://www.google.com/maps?q=${destination}&amp;hl=az&amp;z=16&amp;output=embed" referrerpolicy="no-referrer-when-downgrade"></iframe><p class="office-location">${address}</p><a class="dark-btn" href="https://www.google.com/maps/search/?api=1&amp;query=${destination}" target="_blank" rel="noopener">Xəritədə aç ↗</a></section>
 </div></div>
-<div class="champagne footer-bottom">${logo}<div><p>© 2026 Gajar Agency. Bütün hüquqlar qorunur.</p>
+<div class="champagne footer-bottom"><div class="footer-identity">${logo}<p class="footer-motto">Biznesinizin rəqəmsal zəkası</p></div><div><p>© 2026 Gajar Agency. Bütün hüquqlar qorunur.</p>
 <nav aria-label="Alt menyu">${[navItems[1],["haqqimizda","Haqqımızda"],["mexfilik","Məxfilik siyasəti"]].map(pageLink).join("")}</nav></div>
 <div class="footer-socials"><a class="social" href="https://www.instagram.com/gajar.agency/" aria-label="Gajar Agency Instagram hesabı">${icon("instagram")}</a><a class="social" href="${whatsapp}" aria-label="Gajar Agency WhatsApp">${icon("wa")}</a></div></div>`;
-
-const mapFrame = document.querySelector(".map iframe");
-function loadOfficeMap() {
-  mapFrame.src = mapFrame.dataset.src;
-}
-if ("IntersectionObserver" in window) {
-  const footerObserver = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    loadOfficeMap();
-    footerObserver.disconnect();
-  }, {rootMargin: "280px 0px"});
-  footerObserver.observe(document.querySelector("#contacts"));
-} else {
-  loadOfficeMap();
-}

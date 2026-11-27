@@ -1,29 +1,5 @@
 (() => {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const problem = document.querySelector("#problem");
-  const field = problem.querySelector("input");
-  const choices = [...document.querySelectorAll(".choices button")];
-  function markChoice() {
-    choices.forEach(button => button.setAttribute("aria-pressed", String(button.textContent === field.value)));
-    field.setCustomValidity("");
-    problem.parentElement.querySelector(".draft-link")?.remove();
-  }
-  choices.forEach(button => button.onclick = () => {
-    field.value = button.textContent;
-    markChoice();
-    field.focus();
-  });
-  field.oninput = markChoice;
-  problem.onsubmit = event => {
-    event.preventDefault();
-    if (!field.value.trim()) {
-      field.setCustomValidity("Кратко опишите задачу.");
-      field.reportValidity();
-      return;
-    }
-    GajarLead.send(problem,{type:"problem",message:field.value.trim()},field.value.trim());
-  };
-
   const questions = [
   [
     "Услуги",
@@ -63,7 +39,7 @@
   [
     "Офис",
     "Где находится офис и когда вы работаете?",
-    "Баку, ул. Шамиля Азизбекова, 140, Jalə Plaza, 3-й этаж. Пн–пт 10:00–19:00."
+    "Баку, ул. Шамиля Азизбекова, 140, Jalə Plaza, 3-й этаж. Пн–пт 11:00–20:00."
   ],
   [
     "Первый шаг",

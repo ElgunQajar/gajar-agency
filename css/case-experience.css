@@ -1,13 +1,13 @@
-.panel details.cx{margin-block:1.4rem .25rem;padding:0;border:1px solid var(--gold);border-radius:18px;overflow:hidden}
+.panel details.cx{margin-block:1.4rem .25rem;padding:0;border:1px solid var(--accent);border-radius:18px;overflow:hidden}
 .cx summary{padding:1rem 1.2rem;cursor:pointer;font-weight:600;color:var(--light)}
 .cx .cx-body{padding:.2rem clamp(14px,3vw,32px) 1.5rem}
 .cx h3,.cx h4{margin:1.1rem 0 .65rem}
 .cx figure{margin:0}
 .cx figcaption,.cx-caption,.cx-fields dt{font-size:.9rem;font-weight:550;color:var(--light)}
 .cx audio{display:block;width:min(100%,340px);margin-top:.7rem}
-.cx blockquote{margin:.8rem 0;padding:.35rem 1rem;border-inline-start:2px solid var(--gold);font-size:1.06rem}
+.cx blockquote{margin:.8rem 0;padding:.35rem 1rem;border-inline-start:2px solid var(--accent);font-size:1.06rem}
 .cx-controls{display:flex;flex-wrap:wrap;gap:.5rem;margin:.8rem 0}
-.cx-action{padding:.55rem .95rem;min-height:44px;max-width:100%;text-align:start;line-height:1.35;border:1px solid var(--gold);border-radius:1.3rem;background:transparent;color:var(--cream);cursor:pointer}
+.cx-action{padding:.55rem .95rem;min-height:44px;max-width:100%;text-align:start;line-height:1.35;border:1px solid var(--accent);border-radius:1.3rem;background:transparent;color:var(--cream);cursor:pointer}
 .cx-action[aria-pressed=true],.cx-action:hover,.cx-action:focus-visible{background:var(--champagne);color:#0d1421}
 .cx-output{padding:.8rem 1rem;background:#3c6bc20d;border:1px solid #43609465;border-radius:12px}
 .cx-output>*:first-child{margin-top:0}

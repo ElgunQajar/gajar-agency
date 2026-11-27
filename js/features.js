@@ -78,16 +78,15 @@
   }
   if(home){
     const section=document.createElement("section");section.className="panel release-panel scan-invite";
-    const title=document.createElement("h2");title.textContent=t("Hansı iş vaxtınızı alır?","Какая задача отнимает ваше время?");
+    const title=document.createElement("h2");title.textContent=t("Sistemi sınayın","Попробуйте систему");
     const grid=document.createElement("div");grid.className="experience-grid";
     addCards(grid,[
       ["biznes-prosesleri.html",t("Sifarişi cədvələ əllə köçürürsünüz?","Переносите заказы в таблицу вручную?"),t("Məlumatı müştəridən bir dəfə alın. Sistem sifarişi qeydə alsın və məsul şəxsə bildirsin.","Получите данные от клиента один раз. Система запишет заказ и уведомит ответственного."),t("Sifariş nümunəsinə bax","Посмотреть пример заказа")],
-      ...businessTools
+      ...businessTools,
+      [hubPath,hubTitle,t("Sual verin və botun müştərini necə yönləndirdiyini görün.","Задайте вопрос и посмотрите, как бот помогает клиенту."),t("Botu sına","Попробовать чатбот")]
     ]);
-    const hubLink=document.createElement("a");hubLink.href=pages+hubPath;hubLink.className="cta";
-    hubLink.textContent=hubTitle+" →";
-    section.append(title,grid,hubLink);
-    document.querySelector(".hero").after(section);
+    section.append(title,grid);
+    document.querySelector(".about").after(section);
   }
   const hub=document.querySelector("#bot-sinaqlari .experience-grid");
   if(hub){
@@ -121,13 +120,7 @@
     media.addEventListener("change",show);show();
   }
   if(cfg.voiceDemoUrl?.trim()){
-    const hosts=[...document.querySelectorAll("article#sesli,.mobile-services details:has(a[href$='#sesli'])")];
-    const card=document.querySelector(".fan a[href$='#sesli']");
-    if(card){
-      const article=document.createElement("article");article.className=card.className;
-      card.replaceWith(article);article.append(...card.childNodes);
-      const more=document.createElement("a");more.href=card.href;more.append(article.lastElementChild);article.append(more);hosts.push(article);
-    }
+    const hosts=document.querySelectorAll("[data-voice-demo]");
     for(const host of hosts){
       const figure=document.createElement("figure");figure.className="voice-player";
       const caption=document.createElement("figcaption");caption.textContent=t("Nümunə zəng — Demo Klinika","Пример звонка — Демо Клиника");

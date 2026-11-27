@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gajar.agency/sitemap.xml
+Sitemap: https://elgunqajar.github.io/gajar-agency/sitemap.xml

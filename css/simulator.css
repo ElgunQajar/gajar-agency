@@ -1,6 +1,6 @@
 .simulator {
-  --sim-line:color-mix(in srgb,var(--gold) 46%,transparent);
-  --sim-tint:color-mix(in srgb,var(--gold) 9%,var(--card));
+  --sim-line:color-mix(in srgb,var(--accent) 46%,transparent);
+  --sim-tint:color-mix(in srgb,var(--accent) 9%,var(--card));
 }
 .sim-setup,.sim-columns {display:grid;gap:clamp(12px,2vw,24px)}
 .sim-setup {grid-template-columns:1fr 1fr auto;align-items:end}

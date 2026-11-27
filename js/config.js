@@ -28,58 +28,35 @@ window.GajarConfig = {
     }
   ],
   videos:[1,2,3].map(n=>({src:"img/videos/video-"+n+".mp4",poster:"img/videos/video-"+n+".jpg"})),
-  illustratedTime:"03:00", demoPhone:"+994 •• ••• •• ••", articleBase:"https://gajar.agency",
+  illustratedTime:"03:00", demoPhone:"+994 •• ••• •• ••", articleBase:"https://elgunqajar.github.io/gajar-agency",
   whatsappBase:"https://wa.me/",
   qrLibrary:"https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"
 };
 (() => {
-  // Solar elevation for Baku. UTC also works for visitors in another time zone.
-  const rad = Math.PI / 180;
-  function bakuTheme(now) {
-    const year = now.getUTCFullYear();
-    const day = (Date.UTC(year, now.getUTCMonth(), now.getUTCDate()) - Date.UTC(year, 0, 1)) / 86400000;
-    const minutes = now.getUTCHours() * 60 + now.getUTCMinutes();
-    const yearDays = (Date.UTC(year + 1, 0, 1) - Date.UTC(year, 0, 1)) / 86400000;
-    const phase = 2 * Math.PI / yearDays * (day + minutes / 1440 - 0.5);
-    const c = Math.cos, s = Math.sin;
-    const eq = 229.18 * (0.000075 + 0.001868*c(phase) - 0.032077*s(phase) - 0.014615*c(2*phase) - 0.040849*s(2*phase));
-    const dec = 0.006918 - 0.399912*c(phase) + 0.070257*s(phase) - 0.006758*c(2*phase) + 0.000907*s(2*phase) - 0.002697*c(3*phase) + 0.00148*s(3*phase);
-    const hourAngle = ((minutes + eq + 4*49.87) / 4 - 180) * rad;
-    const altitude = s(40.41*rad)*s(dec) + c(40.41*rad)*c(dec)*c(hourAngle);
-    return altitude >= s(-0.833*rad) ? "light" : "dark";
-  }
+  const preference = window.matchMedia("(prefers-color-scheme: dark)");
   const key = "gajar-theme-override";
   let choice = null;
   function restore() {
-    try { choice = JSON.parse(localStorage.getItem(key)); } catch { choice = null; }
+    try {
+      const saved = JSON.parse(localStorage.getItem(key));
+      const theme = typeof saved === "string" ? saved : saved?.theme;
+      choice = ["light","dark"].includes(theme) ? theme : null;
+    } catch { choice = null; }
   }
   function apply() {
-    const now = new Date();
-    const solar = bakuTheme(now);
-    if (choice && (choice.solar !== solar || now.getTime() >= choice.until)) {
-      choice = null;
-      try { localStorage.removeItem(key); } catch {}
-    }
     document.documentElement.dataset.themeMode = choice ? "manual" : "auto";
-    document.documentElement.dataset.theme = choice?.theme || solar;
+    document.documentElement.dataset.theme = choice || (preference.matches ? "dark" : "light");
     document.dispatchEvent(new Event("gajar-theme-change"));
   }
   restore();
   apply();
-  setInterval(apply, 60000);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) apply(); });
+  preference.addEventListener("change", apply);
   window.addEventListener("storage", event => {
     if (event.key === key || event.key === null) { restore(); apply(); }
   });
   window.toggleTheme = () => {
-    const now = new Date();
-    const solar = bakuTheme(now);
-    const theme = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-    choice = theme === solar ? null : { theme, solar, until: now.getTime() + 86400000 };
-    try {
-      if (choice) localStorage.setItem(key, JSON.stringify(choice));
-      else localStorage.removeItem(key);
-    } catch {}
+    choice = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+    try { localStorage.setItem(key, JSON.stringify(choice)); } catch {}
     apply();
   };
 })();

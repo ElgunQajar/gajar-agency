@@ -9,14 +9,14 @@
 .plans,.services-grid {display:grid;gap:16px}
 .plans {grid-template-columns:repeat(3,minmax(0,1fr));max-width:1180px;margin:auto}
 .plan,.panel,.services-grid article {border:1px solid #47506166;border-radius:24px}
-.plan {padding:clamp(18px,2vw,32px);display:flex;flex-direction:column;scroll-margin:18px;background:linear-gradient(150deg,#23221f,#111214 55%);--accent:#bcc5d5}
-.plan-1 {background:linear-gradient(150deg,#242a34,#161411 60%);--accent:#6290e6}
-.plan-2 {border-color:var(--gold);background:radial-gradient(ellipse at 90% 0,#354a7177,transparent 55%),linear-gradient(150deg,#242f42,#0e121a 68%);--accent:#9fbef8;box-shadow:0 0 40px #3262ba17}
-.plan:target {outline:2px solid var(--amber);outline-offset:3px}
+.plan {padding:clamp(18px,2vw,32px);display:flex;flex-direction:column;scroll-margin:18px;background:linear-gradient(150deg,#0C1433,#0A1130 55%);--accent:#bcc5d5}
+.plan-1 {background:linear-gradient(150deg,#162348,#0C1433 60%);--accent:#6290e6}
+.plan-2 {border-color:var(--accent);background:radial-gradient(ellipse at 90% 0,#354a7177,transparent 55%),linear-gradient(150deg,#242f42,#0e121a 68%);--accent:#9fbef8;box-shadow:0 0 40px #3262ba17}
+.plan:target {outline:2px solid var(--accent-soft);outline-offset:3px}
 .plan header {display:flex;align-items:center;justify-content:space-between;gap:4px}
 .num,.price {font-family:var(--heading);font-weight:600;letter-spacing:-.06em}
 .num {font-size:clamp(28px,3vw,44px);color:var(--accent)}
-.tag {font-size:10px;letter-spacing:.06em;padding:5px 8px;border-radius:20px;background:#1e2430;color:var(--light);white-space:nowrap}
+.tag {font-size:10px;letter-spacing:.06em;padding:5px 8px;border-radius:20px;background:#162348;color:var(--light);white-space:nowrap}
 .plan-2 .tag,.plan-2 .order {background:var(--champagne);color:var(--dark)}
 .plan h2 {font-size:clamp(24px,2.6vw,38px);margin:24px 0 4px}
 .pitch {min-height:3.2em;margin:0 0 18px;font-size:15px}
@@ -33,7 +33,7 @@
 .upgrade {color:var(--light);border-top:1px solid #ffffff18;padding-top:12px}
 .upgrade:hover {text-decoration:underline}
 .saving {color:#a9bbdb}
-.panel {max-width:1020px;margin:clamp(26px,4vw,64px) auto 0;padding:clamp(14px,3.5vw,48px);background:linear-gradient(145deg,#1d1c1a,#0e0e0e 82%)}
+.panel {max-width:1020px;margin:clamp(26px,4vw,64px) auto 0;padding:clamp(14px,3.5vw,48px);background:linear-gradient(145deg,#0C1433,#0A1130 82%)}
 .panel h2 {font-size:clamp(21px,2.5vw,34px);letter-spacing:-.045em;margin-bottom:22px}
 .panel table {width:100%;border-spacing:0;font-size:clamp(12px,1.35vw,16px)}
 .panel td,.panel th {padding:12px 6px;border-bottom:1px solid #fff1;text-align:center}
@@ -43,11 +43,11 @@
 .services-grid article {padding:clamp(15px,2vw,26px);background:var(--card);display:flex;flex-direction:column}
 .services-grid h3 {font-family:var(--heading);margin:0}
 .services-grid .price {margin-top:auto;color:var(--light)}
-.upsell {border:1px solid var(--gold);padding:14px;margin-top:16px;border-radius:14px;background:#131821}
+.upsell {border:1px solid var(--accent);padding:14px;margin-top:16px;border-radius:14px;background:#131821}
 .upsell p {margin:0 0 10px;color:var(--cream)}
 .workflow,.guide {display:grid;gap:10px;padding:0}
 .workflow {counter-reset:stage;grid-template-columns:repeat(5,minmax(0,1fr));list-style:none;margin:0 0 36px}
-.workflow li,.guide article {background:#141310;border:1px solid #37486688;border-radius:16px;padding:15px}
+.workflow li,.guide article {background:#0A1130;border:1px solid #37486688;border-radius:16px;padding:15px}
 .workflow li {counter-increment:stage}
 .workflow li::before {content:counter(stage);display:grid;place-items:center;width:32px;height:32px;margin-bottom:12px;border-radius:50%;background:var(--champagne);color:var(--dark);font-weight:500}
 .workflow strong {display:block;line-height:1.3}
@@ -59,7 +59,7 @@
 .guide .cta {text-decoration:none;font-size:14px}
 .upgrade span {white-space:nowrap}
 @media(max-width:780px){.workflow,.guide {grid-template-columns:1fr}.workflow li {display:grid;grid-template-columns:32px 1fr;gap:3px 12px}.workflow li::before {grid-row:span 2;margin:0}.workflow p {margin:0}}
-.panel details {margin:8px 0;border:1px solid #ffffff1c;border-radius:14px;background:#111214}
+.panel details {margin:8px 0;border:1px solid #ffffff1c;border-radius:14px;background:#0A1130}
 .panel summary {display:flex;justify-content:space-between;align-items:center;gap:14px;font-weight:500;cursor:pointer;padding:15px;list-style:none}
 .panel summary::-webkit-details-marker {display:none}
 .panel summary::after {content:"+";color:var(--light);font-size:22px}

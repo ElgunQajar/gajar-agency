@@ -60,8 +60,8 @@ window.serviceCatalog = [
     "Вы выбираете направление на месяц, а повседневное ведение страницы берёт на себя команда."
   ],
   [
-    "CRM",
-    "CRM",
+    "GajarCRM",
+    "GajarCRM",
     "Müştəri tarixçəsi dağınıqdır.",
     "История клиента разбросана.",
     "Müxtəlif kanallardan gələn yazışmaları vahid müştəri tarixçəsində toplayın.",
@@ -90,8 +90,8 @@ window.serviceCatalog = [
     "С вашего согласия цифровой двойник озвучивает утверждённые видео. На встрече он представляется цифровым представителем и передаёт согласованный текст. Решения принимаете вы."
   ],
   [
-    "Səsli AI operator",
-    "Голосовой AI-оператор",
+    "Gajar səsli AI operator",
+    "Голосовой ИИ-оператор Gajar",
     "Zənglər cavabsız qalır.",
     "Звонки остаются без ответа.",
     "Gələn zəngi qarşılayın və danışıqdan sonra məsul şəxsə tapşırıq yaradın.",

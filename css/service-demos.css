@@ -1,18 +1,18 @@
 .service-demo {scroll-margin-top:1.5rem}
 .service-demo label {display:grid;gap:.4rem;font-size:.96rem}
-.service-demo :is(input,textarea) {min-width:0;width:100%;padding:.8rem;border:1px solid var(--gold);border-radius:12px;background:var(--dark);color:var(--cream);font:inherit}
+.service-demo :is(input,textarea) {min-width:0;width:100%;padding:.8rem;border:1px solid var(--accent);border-radius:12px;background:var(--dark);color:var(--cream);font:inherit}
 .service-demo .demo-fields {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:16px;margin:1.25rem 0}
-.service-demo .demo-reply {margin:1rem 0;padding:clamp(14px,3vw,24px);border-inline-start:3px solid var(--amber);border-radius:0 14px 14px 0;background:var(--warm-card);color:var(--cream)}
+.service-demo .demo-reply {margin:1rem 0;padding:clamp(14px,3vw,24px);border-inline-start:3px solid var(--accent-soft);border-radius:0 14px 14px 0;background:var(--warm-card);color:var(--cream)}
 .service-demo .demo-reply p:last-child {margin-bottom:0}
 .prospect-prompts {display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
-.prospect-prompts button {font:inherit;color:var(--cream);background:var(--warm-card);border:1px solid var(--gold);border-radius:18px;padding:.45rem .8rem;text-align:start;cursor:pointer}
+.prospect-prompts button {font:inherit;color:var(--cream);background:var(--warm-card);border:1px solid var(--accent);border-radius:18px;padding:.45rem .8rem;text-align:start;cursor:pointer}
 .service-demo .prospect-log {max-height:21rem;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
 .service-demo .prospect-turn {padding:.6rem 0;overflow-wrap:anywhere}
 .service-demo .prospect-turn b {display:block;color:var(--light);font-size:.88rem}
 .service-demo .prospect-turn p {margin:.2rem 0;white-space:pre-line}
 .service-demo form .cta {margin:.75rem 0 0;cursor:pointer}
 .service-demo a.cta {white-space:normal;text-align:center}
-.service-example {margin:12px 0 20px;width:100%;border:1px solid var(--gold);border-radius:14px;padding:0 14px;background:var(--warm-card);color:var(--cream)}
+.service-example {margin:12px 0 20px;width:100%;border:1px solid var(--accent);border-radius:14px;padding:0 14px;background:var(--warm-card);color:var(--cream)}
 .service-example summary {padding:12px 0;cursor:pointer;font-weight:500}
 .service-example ol {padding-inline-start:1.2rem}
 .service-example li+li {margin-top:.5rem}
